@@ -116,8 +116,8 @@ const Signup = () => {
             <TextField
               sx={{ mb: 3 }}
               fullWidth
-              id="firstName"
               label="First Name"
+              id="firstName"
               name="firstName"
               value={firstName}
               onChange={(e)=> setfirstName(e.target.value)}
