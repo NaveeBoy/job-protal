@@ -22,12 +22,14 @@ const AdminAddPopUp = () => {
                 <DialogContent>
                     {/* <DialogContentText>Do you want remove this user?</DialogContentText> */}
                     <Stack spacing={2} margin={2}>
-                      <TextField variant="outlined" label="Username"></TextField>
+                      <TextField variant="outlined" label="First Name"></TextField>
+                      <TextField variant="outlined" label="Last Name"></TextField>
+                      <TextField variant="outlined" label="E-Mail"></TextField>
                       <TextField variant="outlined" label="Password"></TextField>
-                      <TextField variant="outlined" label="Email"></TextField>
-                      <TextField variant="outlined" label="Phone"></TextField>
-                      <FormControlLabel control={<Checkbox defaultChecked color="primary"></Checkbox>} label="Agree terms & conditions"></FormControlLabel>
-                      <Button color="primary" variant="contained">Submit</Button>
+                      <TextField variant="outlined" label="User Type : Admin" disabled='true' value="Admin" ></TextField>
+                      
+                      
+                      <Button color="primary" variant="contained">Create</Button>
                     </Stack>
                 </DialogContent>
                 <DialogActions>
