@@ -29,8 +29,6 @@ const AdminAddPopUp = () => {
                       <TextField variant="outlined" label="Confirm Password"></TextField>
                       <TextField variant="outlined" label="User Type : Admin" disabled='true' value="Admin" ></TextField>
                       
-                      
-                      
                       <Button color="primary" variant="contained">Create</Button>
                     </Stack>
                 </DialogContent>
