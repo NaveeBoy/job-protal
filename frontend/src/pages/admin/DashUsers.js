@@ -6,6 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment'
 import { allUserAction } from '../../redux/actions/userAction';
+import AdminAdd from './AdminAddPopUp';
 
 const DashUsers = () => {
 
@@ -77,8 +78,10 @@ const DashUsers = () => {
                     All users
                 </Typography>
                 <Box sx={{ pb: 2, display: "flex", justifyContent: "right" }}>
-                    <Button variant='contained' color="success" startIcon={<AddIcon />}> Create user</Button>
+                    {/* <Button variant='contained' color="success" startIcon={<AddIcon />}> Create user</Button> */}
+                    <AdminAdd/>
                 </Box>
+                
                 <Paper sx={{ bgcolor: "secondary.midNightBlue" }} >
 
                     <Box sx={{ height: 400, width: '100%' }}>
