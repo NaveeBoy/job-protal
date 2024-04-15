@@ -129,8 +129,8 @@ const Signup = () => {
             <TextField
               sx={{ mb: 3 }}
               fullWidth
-              id="lasttName"
               label="Last Name"
+              id="lasttName"
               name="lasttName"
               value={lastName}
               onChange={(e)=> setlastName(e.target.value)}
@@ -161,8 +161,8 @@ const Signup = () => {
             <TextField
               sx={{ mb: 3 }}
               fullWidth
-              id="email"
               label="E-mail"
+              id="email"
               name="email"
               value={email}
               onChange={(e)=> setemail(e.target.value)}
@@ -174,10 +174,10 @@ const Signup = () => {
             <TextField
               sx={{ mb: 3 }}
               fullWidth
-              id="password"
-              name="password"
               label="Password"
               type="password"
+              id="password"
+              name="password"
               value={password}
               onChange={(e)=> setpassword(e.target.value)}
               InputLabelProps={{
@@ -188,9 +188,9 @@ const Signup = () => {
             <TextField
               sx={{ mb: 3 }}
               fullWidth
+              label="Confirm Password"
               id="cpassword"
               name="cpassword"
-              label="Confirm Password"
               type="cpassword"
               InputLabelProps={{
                 shrink: true,
