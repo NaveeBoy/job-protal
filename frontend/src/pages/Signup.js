@@ -36,23 +36,40 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
 
   const notifySuccess = () => toast.success("Data sent successfully!");
-  const notifyError = () => toast.error("Failed to send data. Please try again.");
+  const notifyError = () => toast.error("Failed to send data or Email already exists. Please use a different email and Please try again.");
+  const notifyEmailExists = () => toast.error("Email already exists. Please use a different email.");
+
+  const checkEmailExists = async (email) => {
+    try {
+      const response = await fetch(`http://localhost:9000/api/check-email?email=${email}`);
+      const data = await response.json();
+      return data.exists;
+    } catch (error) {
+      console.error("Error checking email:", error);
+      return false;
+    }
+  };
 
   const collectData = async (values) => {
     setLoading(true);
     try {
-      const result = await fetch("http://localhost:9000/api/signup", {
-        method: "POST",
-        body: JSON.stringify(values),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (result.ok) {
-        notifySuccess();
-        localStorage.setItem("user", JSON.stringify(values));
+      const emailExists = await checkEmailExists(values.email);
+      if (emailExists) {
+        notifyEmailExists();
       } else {
-        notifyError();
+        const result = await fetch("http://localhost:9000/api/signup", {
+          method: "POST",
+          body: JSON.stringify(values),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (result.ok) {
+          notifySuccess();
+          localStorage.setItem("user", JSON.stringify(values));
+        } else {
+          notifyError();
+        }
       }
     } catch (error) {
       notifyError();
