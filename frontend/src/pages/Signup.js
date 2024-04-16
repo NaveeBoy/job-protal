@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { userSignInAction } from "../redux/actions/userAction";
+import { userSignUpAction } from "../redux/actions/userAction";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
@@ -48,6 +48,19 @@ const Signup = () => {
     result = await result.json;
     localStorage.setItem("users", JSON.stringify(result));
   };
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    
+    onSubmit: (values, actions) => {
+      //  alert(JSON.stringify(values, null, 2));
+      dispatch(userSignUpAction(values));
+      actions.resetForm();
+    },
+  });
 
   return (
     <>
@@ -137,6 +150,9 @@ const Signup = () => {
                 shrink: true,
               }}
               placeholder="First Name"
+              onBlur={formik.handleBlur}
+              error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+              helperText={formik.touched.firstName && formik.errors.firstName}
             />
             <TextField
               sx={{ mb: 3 }}
@@ -150,6 +166,9 @@ const Signup = () => {
                 shrink: true,
               }}
               placeholder="Last Name"
+              onBlur={formik.handleBlur}
+              error={formik.touched.lasttName && Boolean(formik.errors.lasttName)}
+              helperText={formik.touched.lasttName && formik.errors.lasttName}
             />
             {/*dropdown*/}
             <label className="text-left">Select User Type</label>
@@ -162,6 +181,9 @@ const Signup = () => {
               name="role"
               value={role}
               onChange={(e) => setRole(e.target.value)}
+              onBlur={formik.handleBlur}
+              error={formik.touched.role && Boolean(formik.errors.role)}
+              helperText={formik.touched.role && formik.errors.role}
             >
               <MenuItem value="">
                 <em>Select User Type</em>
@@ -183,6 +205,9 @@ const Signup = () => {
                 shrink: true,
               }}
               placeholder="E-mail"
+              onBlur={formik.handleBlur}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
             />
             <TextField
               sx={{ mb: 3 }}
@@ -197,6 +222,9 @@ const Signup = () => {
                 shrink: true,
               }}
               placeholder="Password"
+              onBlur={formik.handleBlur}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
             />
             <TextField
               sx={{ mb: 3 }}
@@ -209,9 +237,12 @@ const Signup = () => {
                 shrink: true,
               }}
               placeholder="Confirm Password"
+              onBlur={formik.handleBlur}
+              error={formik.touched.cpassword && Boolean(formik.errors.cpassword)}
+              helperText={formik.touched.cpassword && formik.errors.cpassword}
             />
 
-            <Button fullWidth variant="contained" type="submit">
+            <Button fullWidth variant="contained" type="submit" >
               Create Account
             </Button>
           </Box>
