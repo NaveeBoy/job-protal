@@ -1,77 +1,89 @@
-// SignUpForm.js
-
-//import { Avatar, Box } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import Footer from "../component/Footer";
-import Navbar from "../component/Navbar";
-import "bootstrap/dist/css/bootstrap.min.css";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
-import { userSignUpAction } from "../redux/actions/userAction";
-import { useNavigate } from "react-router-dom";
+import Navbar from "../component/Navbar";
+import Footer from "../component/Footer";
 import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 
+// Validation schema using Yup
 const validationSchema = yup.object({
-  email: yup
-    .string("Enter your email")
-    .email("Enter a valid email")
-    .required("Email is required"),
+  firstName: yup.string().required("First Name is required"),
+  lastName: yup.string().required("Last Name is required"),
+  role: yup.string().required("User Type is required"),
+  email: yup.string().email("Enter a valid email").required("Email is required"),
   password: yup
-    .string("Enter your password")
-    .min(8, "Password should be of minimum 8 characters length")
+    .string()
+    .min(8, "Password should be at least 8 characters")
     .required("Password is required"),
+  cpassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .required("Confirm Password is required")
+    .test('passwords-match', 'Passwords must match', function(value) {
+      return this.parent.password === value;
+    }),
 });
 
 const Signup = () => {
-  const [firstName, setfirstName] = useState("");
-  const [lastName, setlastName] = useState("");
-  const [role, setRole] = useState("");
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const collectData = async (e) => {
-    e.preventDefault();
-    let result = await fetch("http://localhost:9000/api/signup", {
-      method: "post",
-      body: JSON.stringify({ firstName, lastName, email, password, role }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    result = await result.json;
-    localStorage.setItem("users", JSON.stringify(result));
+  const notifySuccess = () => toast.success("Data sent successfully!");
+  const notifyError = () => toast.error("Failed to send data. Please try again.");
+
+  const collectData = async (values) => {
+    setLoading(true);
+    try {
+      const result = await fetch("http://localhost:9000/api/signup", {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (result.ok) {
+        notifySuccess();
+        localStorage.setItem("user", JSON.stringify(values));
+      } else {
+        notifyError();
+      }
+    } catch (error) {
+      notifyError();
+      console.error("Error:", error);
+    }
+    setLoading(false);
   };
 
   const formik = useFormik({
     initialValues: {
+      firstName: "",
+      lastName: "",
+      role: "",
       email: "",
       password: "",
+      cpassword: "",
     },
-    
-    onSubmit: (values, actions) => {
-      //  alert(JSON.stringify(values, null, 2));
-      dispatch(userSignUpAction(values));
-      actions.resetForm();
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      collectData(values);
     },
   });
 
   return (
     <>
       <Navbar />
-
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          //backgroundColor:'#ACE2E1',
         }}
       >
         <Box
@@ -86,6 +98,7 @@ const Signup = () => {
             justifyContent: "center",
           }}
         >
+          {/* Your JSX content */}
           <br />
           <br />
           <br />
@@ -114,6 +127,7 @@ const Signup = () => {
           <div className="m-10">
             <img src="./logo.jpg" width={200} />
           </div>
+        
         </Box>
         <Box
           sx={{
@@ -122,7 +136,7 @@ const Signup = () => {
             opacity: "",
             marginRight: "7rem",
           }}
-          onSubmit={collectData}
+          onSubmit={formik.handleSubmit}
           component="form"
           className="form_style border-style "
         >
@@ -135,7 +149,7 @@ const Signup = () => {
             }}
           >
             <div>
-              <h2 class="text-primary ">Welcome to Quck Jobs</h2>
+              <h2 className="text-primary">Welcome to Quick Jobs</h2>
             </div>
             <br />
             <TextField
@@ -144,12 +158,8 @@ const Signup = () => {
               label="First Name"
               id="firstName"
               name="firstName"
-              value={firstName}
-              onChange={(e) => setfirstName(e.target.value)}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              placeholder="First Name"
+              value={formik.values.firstName}
+              onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.firstName && Boolean(formik.errors.firstName)}
               helperText={formik.touched.firstName && formik.errors.firstName}
@@ -158,39 +168,34 @@ const Signup = () => {
               sx={{ mb: 3 }}
               fullWidth
               label="Last Name"
-              id="lasttName"
-              name="lasttName"
-              value={lastName}
-              onChange={(e) => setlastName(e.target.value)}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              placeholder="Last Name"
+              id="lastName"
+              name="lastName"
+              value={formik.values.lastName}
+              onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.lasttName && Boolean(formik.errors.lasttName)}
-              helperText={formik.touched.lasttName && formik.errors.lasttName}
+              error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+              helperText={formik.touched.lastName && formik.errors.lastName}
             />
             {/*dropdown*/}
-            <label className="text-left">Select User Type</label>
-            <Select
-              sx={{ mb: 3 }}
-              fullWidth
-              labelId="role"
-              id="role"
-              label="User Type"
-              name="role"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              onBlur={formik.handleBlur}
-              error={formik.touched.role && Boolean(formik.errors.role)}
-              helperText={formik.touched.role && formik.errors.role}
-            >
-              <MenuItem value="">
-                <em>Select User Type</em>
-              </MenuItem>
-              <MenuItem value={"0"}>Job Seaker</MenuItem>
-              <MenuItem value={"2"}>Company</MenuItem>
-            </Select>
+            <FormControl fullWidth sx={{ mb: 3 }}>
+              <InputLabel id="role-label">User Type</InputLabel>
+              <Select
+                labelId="role-label"
+                id="role"
+                name="role"
+                value={formik.values.role}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.role && Boolean(formik.errors.role)}
+                label="User Type"
+              >
+                <MenuItem value="">
+                  <em>Select User Type</em>
+                </MenuItem>
+                <MenuItem value={"0"}>Job Seeker</MenuItem>
+                <MenuItem value={"2"}>Company</MenuItem>
+              </Select>
+            </FormControl>
             {/*dropdown*/}
 
             <TextField
@@ -199,12 +204,8 @@ const Signup = () => {
               label="E-mail"
               id="email"
               name="email"
-              value={email}
-              onChange={(e) => setemail(e.target.value)}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              placeholder="E-mail"
+              value={formik.values.email}
+              onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
@@ -216,12 +217,8 @@ const Signup = () => {
               type="password"
               id="password"
               name="password"
-              value={password}
-              onChange={(e) => setpassword(e.target.value)}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              placeholder="Password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
@@ -230,25 +227,24 @@ const Signup = () => {
               sx={{ mb: 3 }}
               fullWidth
               label="Confirm Password"
+              type="password"
               id="cpassword"
               name="cpassword"
-              type="cpassword"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              placeholder="Confirm Password"
+              value={formik.values.cpassword}
+              onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.cpassword && Boolean(formik.errors.cpassword)}
               helperText={formik.touched.cpassword && formik.errors.cpassword}
             />
 
-            <Button fullWidth variant="contained" type="submit" >
-              Create Account
+            <Button fullWidth variant="contained" type="submit" disabled={loading}>
+              {loading ? "Loading..." : "Create Account"}
             </Button>
           </Box>
         </Box>
       </Box>
       <Footer />
+      <ToastContainer />
     </>
   );
 };
