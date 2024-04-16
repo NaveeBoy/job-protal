@@ -77,7 +77,7 @@ const Signup = () => {
         <Box
           sx={{
             height: "105vh",
-            marginTop: "3rem",
+            marginTop: "0.1rem",
             marginBottom: "3rem",
             opacity: "",
             marginRight: "7rem",
