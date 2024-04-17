@@ -120,7 +120,7 @@ const DashJobs = () => {
                         rows={data}
                         columns={columns}
                         pageSize={5}
-                        rowsPerPageOptions={[5]}
+
                         
                     />
                 </Box>
