@@ -121,7 +121,7 @@ const DashJobs = () => {
                         columns={columns}
                         pageSize={5}
                         rowsPerPageOptions={[5]}
-                        checkboxSelection
+                        
                     />
                 </Box>
             </Paper>

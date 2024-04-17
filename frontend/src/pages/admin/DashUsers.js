@@ -107,7 +107,7 @@ const DashUsers = () => {
                             columns={columns}
                             pageSize={3}
                             rowsPerPageOptions={[3]}
-                            checkboxSelection
+                            
                             slots={{ toolbar: GridToolbar }}
                         />
                     </Box>
