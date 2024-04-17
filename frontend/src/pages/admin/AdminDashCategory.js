@@ -11,14 +11,7 @@ const JobTypeTable = () => {
         dispatch(jobTypeLoadAction());
     }, [dispatch]);
 
-    const handleEdit = (id) => {
-        // Handle edit action
-    };
-
-    const handleDelete = (id) => {
-        // Handle delete action
-    };
-
+    
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }}>
