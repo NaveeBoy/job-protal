@@ -83,6 +83,7 @@ const AdminAddPopUp = () => {
         <DialogTitle>Create New Admin<IconButton onClick={closePopup} style={{ float: "right" }}><CloseIcon color="primary" /></IconButton></DialogTitle>
         <DialogContent>
           <div className="container">
+            <br/>
             <form onSubmit={collectData}>
               <div style={{ marginBottom: '1rem' }}>
                 <TextField

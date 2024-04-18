@@ -33,8 +33,10 @@ const LogIn = () => {
         if (isAuthenticated) {
             if (userInfo.role === 1) {
                 navigate('/admin/dashboard');
-            } else {
+            } else if(userInfo.role === 0) {
                 navigate('/user/dashboard');
+            } else if(userInfo.role === 2) {
+                navigate('');
             }
         }
 

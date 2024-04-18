@@ -50,7 +50,7 @@ const Signup = () => {
     }
   };
 
-  const collectData = async (values) => {
+  const collectData = async (values, { resetForm }) => {
     setLoading(true);
     try {
       const emailExists = await checkEmailExists(values.email);
@@ -67,6 +67,7 @@ const Signup = () => {
         if (result.ok) {
           notifySuccess();
           localStorage.setItem("user", JSON.stringify(values));
+          resetForm(); // Reset the form
         } else {
           notifyError();
         }
@@ -88,8 +89,8 @@ const Signup = () => {
       cpassword: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      collectData(values);
+    onSubmit: (values, { resetForm }) => {
+      collectData(values, { resetForm });
     },
   });
 
