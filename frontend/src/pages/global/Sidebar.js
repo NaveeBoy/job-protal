@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userLogoutAction, userProfileAction } from '../../redux/actions/userAction';
 import { useNavigate } from 'react-router-dom';
 import LoginIcon from '@mui/icons-material/Login';
+import { FaHome } from 'react-icons/fa';
 
 
 const SidebarAdm = () => {
@@ -36,6 +37,10 @@ const SidebarAdm = () => {
         }, 500)
     }
 
+        const Back =()=>{
+
+            navigate('/')
+        }
 
     return (
         <>
@@ -130,6 +135,8 @@ const SidebarAdm = () => {
                             }}
                         >
                             <MenuItem onClick={logOut} icon={<LoginIcon />}>   Log out </MenuItem>
+                            <MenuItem onClick={Back} icon={<FaHome sx={{width:'10', height:'10'}} />}>Home</MenuItem>
+                            
                         </Menu>
                     </Box>
                 </Box>
