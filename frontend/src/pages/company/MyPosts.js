@@ -21,11 +21,11 @@ const JobTable = () => {
             <Table >
                 <TableHead >
                     <TableRow sx={{ backgroundColor: 'secondary.midNightBlue'}}>
-                        <TableCell sx={{ color: 'primary.contrastText', width: "200" }}>ID</TableCell>
-                        <TableCell sx={{ color: 'primary.contrastText', width: "200" }}>Title</TableCell>
-                        <TableCell sx={{ color: 'primary.contrastText', width: "200" }}>Location</TableCell>
-                        <TableCell sx={{ color: 'primary.contrastText', width: "200" }}>Category</TableCell>
-                        <TableCell sx={{ color: 'primary.contrastText', width: "200" }}>Action</TableCell>
+                        <TableCell sx={{ color: 'primary.contrastText', }}>ID</TableCell>
+                        <TableCell sx={{ color: 'primary.contrastText', }}>Title</TableCell>
+                        <TableCell sx={{ color: 'primary.contrastText', }}>Location</TableCell>
+                        <TableCell sx={{ color: 'primary.contrastText', }}>Category</TableCell>
+                        <TableCell sx={{ color: 'primary.contrastText', }}>Action</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody sx={{ backgroundColor: 'secondary.midNightBlue' }}>
@@ -36,10 +36,10 @@ const JobTable = () => {
                     ) : (
                         jobs.map((type) => (
                             <TableRow key={type.id} sx={{ backgroundColor: '#0277bd', '&:hover': { backgroundColor: 'secondary.midNightBlue' }}}>
-                                <TableCell sx={{ color: 'primary.contrastText', width: "200", alignContent: "center" }}>{type._id}</TableCell>
-                                <TableCell sx={{ color: 'primary.contrastText', width: "200" }}>{type.title}</TableCell>
-                                <TableCell sx={{ color: 'primary.contrastText', width: "200" }}>{type.location}</TableCell>
-                                <TableCell sx={{ color: 'primary.contrastText', width: "200" }}>
+                                <TableCell sx={{ color: 'primary.contrastText',  alignContent: "center" }}>{type._id}</TableCell>
+                                <TableCell sx={{ color: 'primary.contrastText', }}>{type.title}</TableCell>
+                                <TableCell sx={{ color: 'primary.contrastText', }}>{type.location}</TableCell>
+                                <TableCell sx={{ color: 'primary.contrastText',  }}>
                                     {type.jobType && type.jobType.jobTypeName} {/* Access categoryName from jobType */}
                                 </TableCell>
                                 <TableCell sx={{ display: "flex" }}>
