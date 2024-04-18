@@ -24,7 +24,7 @@ const JobTypeTable = () => {
         <TableContainer component={Paper} sx={{ border: '1px solid #fff' }}>
             <Table >
                 <TableHead >
-                    <TableRow sx={{ backgroundColor: 'secondary.midNightBlue' }}>
+                    <TableRow sx={{ backgroundColor: 'secondary.midNightBlue'}}>
                     {/* <TableCell sx={{ width: 5}}><Checkbox></Checkbox></TableCell> */}
                         <TableCell sx={{ color: 'primary.contrastText',width:"200" }}>ID</TableCell>
                         <TableCell sx={{ color: 'primary.contrastText' ,width:"200"}}>Category</TableCell>
@@ -38,7 +38,7 @@ const JobTypeTable = () => {
                         </TableRow>
                     ) : (
                         jobType.map((type) => (
-                            <TableRow key={type.id} sx={{ backgroundColor: '#0277bd' }} >
+                            <TableRow key={type.id} sx={{ backgroundColor: '#0277bd' ,'&:hover': { backgroundColor: 'secondary.midNightBlue' }}} >
                                 {/* <TableCell sx={{ width: 5}}><Checkbox></Checkbox></TableCell> */}
                                 <TableCell sx={{ color: 'primary.contrastText',width:"200",alignContent:"center"}}>{type._id}</TableCell>
                                 <TableCell sx={{ color: 'primary.contrastText',width:"200" }}>{type.jobTypeName}</TableCell>
