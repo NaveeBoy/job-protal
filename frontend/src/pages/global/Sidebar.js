@@ -134,8 +134,10 @@ const SidebarAdm = () => {
                                 },
                             }}
                         >
-                            <MenuItem onClick={logOut} icon={<LoginIcon />}>   Log out </MenuItem>
+                            
                             <MenuItem onClick={Back} icon={<FaHome sx={{width:'10', height:'10'}} />}>Home</MenuItem>
+                            <MenuItem onClick={logOut} icon={<LoginIcon />}>   Log out </MenuItem>
+                           
                             
                         </Menu>
                     </Box>

@@ -74,7 +74,7 @@ const Navbar = () => {
               textDecoration: "none",
             }}
           >
-            Quck Jobs
+            Quick Jobs
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -130,7 +130,7 @@ const Navbar = () => {
               textDecoration: "none",
             }}
           >
-            Quck Jobs
+            Quick Jobs
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {/* menu desktop */}
@@ -143,18 +143,19 @@ const Navbar = () => {
                 Home
               </Link>
             </Button>
-
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              <Link
-                to="/signup"
-                style={{ color: "white", textDecoration: "none" }}
+            {!userInfo && ( // Render only if user is not logged in
+              <Button
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: "white", display: "block" }}
               >
-                Create Account
-              </Link>
-            </Button>
+                <Link
+                  to="/signup"
+                  style={{ color: "white", textDecoration: "none" }}
+                >
+                  Create Account
+                </Link>
+              </Button>
+            )}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -240,7 +241,7 @@ const Navbar = () => {
             </Menu>
           </Box>
           <Box>
-            <h1>{userInfo.firstName}</h1>
+            
           </Box>
         </Toolbar>
       </Container>
