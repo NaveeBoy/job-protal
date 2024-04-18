@@ -36,7 +36,7 @@ const LogIn = () => {
             } else if(userInfo.role === 0) {
                 navigate('/user/dashboard');
             } else if(userInfo.role === 2) {
-                navigate('');
+                navigate('/company/dashboard');
             }
         }
 

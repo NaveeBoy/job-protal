@@ -11,6 +11,7 @@ import LogIn from './pages/LogIn';
 import UserDashboard from './pages/user/UserDashboard';
 import UserRoute from './component/UserRoute';
 import AdminRoute from './component/AdminRoute';
+import CompanyRoute from './component/CompanyRoute.js';
 import Layout from './pages/global/Layout';
 import UserJobsHistory from './pages/user/UserJobsHistory';
 import UserInfoDashboard from './pages/user/UserInfoDashboard';
@@ -21,7 +22,8 @@ import DashJobs from './pages/admin/DashJobs';
 import SignUpForm from './pages/Signup';
 import AdminAdd from './pages/admin/AdminAddPopUp';
 import DashCategory from './pages/admin/AdminDashCategory.js';
-import CategoryAdd from './pages/admin/CategoryAddPopUp.js'
+import CategoryAdd from './pages/admin/CategoryAddPopUp.js';
+import CompanyDashboard from './pages/company/CompanyDashboard.js';
 
 //HOC
 const UserDashboardHOC = Layout(UserDashboard);
@@ -32,7 +34,8 @@ const DashUsersHOC = Layout(DashUsers);
 const DashJobsHOC = Layout(DashJobs);
 const DashCategoryHOC = Layout(DashCategory);
 const AdminAddPopUp = Layout(AdminAdd);
-const CategoryAddPopUp =Layout(CategoryAdd)
+const CategoryAddPopUp =Layout(CategoryAdd);
+const CompanyDashboardHOC = Layout(CompanyDashboard);
 
 
 
@@ -54,6 +57,7 @@ const App = () => {
                             <Route path='/signup' element={<SignUpForm />} />
                             <Route path='/job/:id' element={<SingleJob />} />
                             <Route path='/admin/dashboard' element={<AdminRoute><AdminDashboardHOC /></AdminRoute>} />
+                            <Route path='/company/dashboard' element={<CompanyRoute><CompanyDashboardHOC /></CompanyRoute>} />
                             <Route path='/admin/users' element={<AdminRoute><DashUsersHOC /></AdminRoute>} />
                             <Route path='/admin/jobs' element={<AdminRoute><DashJobsHOC /></AdminRoute>} />
                             <Route path='/admin/AdminAddPopUp' element={<AdminRoute><AdminAddPopUp /></AdminRoute>} />

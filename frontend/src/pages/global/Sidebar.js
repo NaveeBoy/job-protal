@@ -89,10 +89,17 @@ const SidebarAdm = () => {
                                         <MenuItem component={<Link to="/admin/jobs" />} icon={<WorkIcon />}> Jobs </MenuItem>
                                         <MenuItem component={<Link to="/admin/category" />} icon={<CategoryIcon />}> Category </MenuItem>
                                     </> :
+                                userInfo && userInfo.role === 0 ?
                                     <>
                                         <MenuItem component={<Link to="/user/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
                                         <MenuItem component={<Link to="/user/jobs" />} icon={<WorkHistoryIcon />}> Applied Jobs </MenuItem>
                                         <MenuItem component={<Link to="/user/info" />} icon={<Person3Icon />}> Personal Info </MenuItem>
+                                    </>:
+                                    
+                                    <>
+                                        <MenuItem component={<Link to="/company/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
+                                        <MenuItem component={<Link to="" />} icon={<WorkHistoryIcon />}> Create a Job </MenuItem>
+                                        <MenuItem component={<Link to="" />} icon={<Person3Icon />}> Personal Info </MenuItem>
                                     </>
                             }
 
