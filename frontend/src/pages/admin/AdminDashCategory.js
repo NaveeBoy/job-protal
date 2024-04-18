@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Checkbox, Typography, TablePagination } from '@mui/material';
 import { jobTypeLoadAction } from '../../redux/actions/jobTypeAction';
-
+import CategoryAdd from './CategoryAddPopUp'
+import { alignProperty } from '@mui/material/styles/cssUtils';
 
 const JobTypeTable = () => {
     const dispatch = useDispatch();
@@ -20,8 +21,13 @@ const JobTypeTable = () => {
         <>
         <Typography variant="h4" sx={{ color: "white", pb: 3 }}>
                 Job Types list
-            </Typography>
+        </Typography>
+            <div sx={{justifyContent: "right"}}>
+                <CategoryAdd/>
+            </div>
+            <br/>
         <TableContainer component={Paper} sx={{ border: '1px solid #fff' }}>
+            
             <Table >
                 <TableHead >
                     <TableRow sx={{ backgroundColor: 'secondary.midNightBlue'}}>
