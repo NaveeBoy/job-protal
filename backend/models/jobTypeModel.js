@@ -12,11 +12,7 @@ const jobTypeSchema = new mongoose.Schema({
         maxlength: 70,
     },
 
-    user: {
-        type: ObjectId,
-        ref: "User",
-        required: true
-    },
+
 
 
 

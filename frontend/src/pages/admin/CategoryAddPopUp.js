@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const AdminAddPopUp = () => {
   const [open, setOpen] = useState(false);
   
-  const [CName, setCName] = useState("");
+  const [jobTypeName, setCName] = useState("");
   const [CCName, setCCName] = useState("");
 
   const openPopup = () => {
@@ -24,28 +24,26 @@ const AdminAddPopUp = () => {
     e.preventDefault();
 
     // Check if all required fields are filled
-    if ( !CName || !CCName) {
+    if ( !jobTypeName || !CCName) {
       toast.error('All fields are required');
       return;
     }
 
-    
-
-    
 
     // Check if password and confirm password match
-    if (CName !== CCName) {
+    if (jobTypeName !== CCName) {
       toast.error('Catrgory Name do not match');
       return;
     }
 
     try {
+     
       const response = await fetch("http://localhost:9000/api/type/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ CName }),
+        body: JSON.stringify({ jobTypeName }),
       });
       
       if (!response.ok) {
@@ -53,7 +51,7 @@ const AdminAddPopUp = () => {
       }
 
       const data = await response.json();
-      localStorage.setItem("jobtypes", JSON.stringify(data));
+      localStorage.setItem("jobType", JSON.stringify(data));
       toast.success('Category Creation successfully');
       closePopup();
     } catch (error) {
@@ -77,7 +75,7 @@ const AdminAddPopUp = () => {
                   label="Category Name"
                   type="text"
                   fullWidth
-                  value={CName}
+                  value={jobTypeName}
                   onChange={(e) => setCName(e.target.value)}
                 />
               </div>
