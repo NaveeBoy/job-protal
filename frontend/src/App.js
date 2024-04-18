@@ -24,8 +24,10 @@ import AdminAdd from './pages/admin/AdminAddPopUp';
 import DashCategory from './pages/admin/AdminDashCategory.js';
 import CategoryAdd from './pages/admin/CategoryAddPopUp.js';
 import CompanyDashboard from './pages/company/CompanyDashBoard.js';
+import Mypost from './pages/company/MyPosts.js';
 
 //HOC
+
 const UserDashboardHOC = Layout(UserDashboard);
 const UserJobsHistoryHOC = Layout(UserJobsHistory);
 const UserInfoDashboardHOC = Layout(UserInfoDashboard);
@@ -36,6 +38,8 @@ const DashCategoryHOC = Layout(DashCategory);
 const AdminAddPopUp = Layout(AdminAdd);
 const CategoryAddPopUp =Layout(CategoryAdd);
 const CompanyDashboardHOC = Layout(CompanyDashboard);
+const MypostHOC=Layout(Mypost);
+
 
 
 
@@ -50,6 +54,7 @@ const App = () => {
                     <BrowserRouter>
                         <Routes>
                             <Route path='/' element={<Home />} />
+                            <Route path='/company/myposts' element={<CompanyRoute><MypostHOC /></CompanyRoute>} />
                             <Route path='/search/location/:location' element={<Home />} />
                             <Route path='/search/location/:jobTime' element={<Home />} />
                             <Route path='/search/:keyword' element={<Home />} />
@@ -66,6 +71,7 @@ const App = () => {
                             <Route path='/user/dashboard' element={<UserRoute>< UserDashboardHOC /></UserRoute>} />
                             <Route path='/user/jobs' element={<UserRoute>< UserJobsHistoryHOC /></UserRoute>} />
                             <Route path='/user/info' element={<UserRoute>< UserInfoDashboardHOC /></UserRoute>} />
+
                             <Route path='*' element={<NotFound />} />
                         </Routes>
                     </BrowserRouter>

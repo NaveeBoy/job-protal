@@ -10,8 +10,9 @@ import {
 
 
 export const jobLoadAction = (pageNumber, keyword = '', cat = '', location = '') => async (dispatch) => {
-    dispatch({ type: JOB_LOAD_REQUEST });
+    
     try {
+        dispatch({ type: JOB_LOAD_REQUEST });
         const { data } = await axios.get(`/api/jobs/show/?pageNumber=${pageNumber}&keyword=${keyword}&cat=${cat}&location=${location}`)
         dispatch({
             type: JOB_LOAD_SUCCESS,
