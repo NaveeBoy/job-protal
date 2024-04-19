@@ -42,3 +42,21 @@ export const jobLoadSingleAction = (id) => async (dispatch) => {
         });
     }
 }
+
+
+//all jobs
+export const jobAllLoadAction = () => async (dispatch) => {
+    dispatch({ type: JOB_LOAD_REQUEST });
+    try {
+        const { data } = await axios.get('/api/jobs/allJobs');
+        dispatch({
+            type: JOB_LOAD_SUCCESS,
+            payload: data
+        });
+    } catch (error) {
+        dispatch({
+            type: JOB_LOAD_FAIL,
+            payload: error.response.data.error
+        });
+    }
+};
