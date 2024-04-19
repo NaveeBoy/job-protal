@@ -23,6 +23,20 @@ exports.createJob = async (req, res, next) => {
     }
 }
 
+// Get all jobs
+exports.allJobs = async (req, res, next) => {
+    try {
+        const job = await Job.find();
+        const totalJobs = job.length;
+        res.status(200).json({
+            success: true,
+            total: totalJobs,
+            job
+        });
+    } catch (error) {
+        next(error);
+    }
+};
 
 //single job
 exports.singleJob = async (req, res, next) => {

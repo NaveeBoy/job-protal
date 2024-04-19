@@ -6,9 +6,27 @@ import CategoryIcon from '@mui/icons-material/Category';
 import { Chart } from "react-google-charts";
 import { data, options } from './data/data'
 import ChartComponent from '../../component/ChartComponent';
+import { jobTypeLoadAction } from '../../redux/actions/jobTypeAction';
+import { allUserAction } from '../../redux/actions/userAction';
+import { jobLoadAction } from '../../redux/actions/jobAction';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
 
 const AdminDashboard = () => {
+
+        // Access the total count from the Redux store
+
+        const {  total: totalJobTypes } = useSelector((state) => state.jobTypeAll);
+
+         // Dispatch the action to load the component mounts
+        const dispatch = useDispatch();
+        useEffect(() => {
+            dispatch(jobTypeLoadAction());
+        }, [dispatch]);
+
+
+
     return (
         <>
             <Box>
@@ -33,7 +51,7 @@ const AdminDashboard = () => {
                         money=''
                     />
                     <StatComponent
-                        value="6548"
+                        value={totalJobTypes}
                         icon={<CategoryIcon sx={{ color: "#fafafa", fontSize: 30 }} />}
                         description="Jobs categories"
                         money=''

@@ -22,8 +22,10 @@ exports.createJobType = async (req, res, next) => {
 exports.allJobsType = async (req, res, next) => {
     try {
         const jobT = await JobType.find();
+        const totalJobTypes = jobT.length;
         res.status(200).json({
             success: true,
+            total: totalJobTypes,
             jobT
         })
     } catch (error) {
