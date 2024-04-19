@@ -59,4 +59,4 @@ export const jobAllLoadAction = () => async (dispatch) => {
             payload: error.response.data.error
         });
     }
-};
+}

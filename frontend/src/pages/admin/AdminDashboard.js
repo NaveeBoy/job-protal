@@ -9,6 +9,7 @@ import ChartComponent from '../../component/ChartComponent';
 import { jobTypeLoadAction } from '../../redux/actions/jobTypeAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import  {jobAllLoadAction} from '../../redux/actions/jobAction';
 
 
 const AdminDashboard = () => {
@@ -16,11 +17,13 @@ const AdminDashboard = () => {
         // Access the total count of job types from the Redux store
 
         const {  total: totalJobTypes } = useSelector((state) => state.jobTypeAll);
+        const {total:totalJobs} = useSelector((state)=>state.alljobs);
 
          // Dispatch the action to load job types when the component mounts
         const dispatch = useDispatch();
         useEffect(() => {
             dispatch(jobTypeLoadAction());
+            dispatch(jobAllLoadAction());
         }, [dispatch]);
 
 
@@ -43,7 +46,7 @@ const AdminDashboard = () => {
                         money=''
                     />
                     <StatComponent
-                        value="450"
+                        value={totalJobs}
                         icon={<WorkIcon sx={{ color: "#fafafa", fontSize: 30 }} />}
                         description="Jobs"
                         money=''

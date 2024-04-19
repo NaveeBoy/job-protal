@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from '@redux-devtools/extension';
-import { loadJobReducer, loadJobSingleReducer } from './reducers/jobReducer';
+import { loadJobReducer, loadJobSingleReducer, loadALLJobReducer } from './reducers/jobReducer';
 import { loadJobTypeReducer } from './reducers/jobTypeReducer';
 import { allUserReducer, userApplyJobReducer, userReducerLogout, userReducerProfile, userReducerSignIn } from './reducers/userReducer';
 import { loadJobTimeReducer } from './reducers/jobTimeReducer';
@@ -17,6 +17,7 @@ const reducer = combineReducers({
     userJobApplication: userApplyJobReducer,
     allUsers: allUserReducer,
     jobTime:loadJobTimeReducer,
+    alljobs:loadALLJobReducer
 
 });
 
