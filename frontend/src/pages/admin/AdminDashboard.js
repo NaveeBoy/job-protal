@@ -7,19 +7,17 @@ import { Chart } from "react-google-charts";
 import { data, options } from './data/data'
 import ChartComponent from '../../component/ChartComponent';
 import { jobTypeLoadAction } from '../../redux/actions/jobTypeAction';
-import { allUserAction } from '../../redux/actions/userAction';
-import { jobLoadAction } from '../../redux/actions/jobAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 
 
 const AdminDashboard = () => {
 
-        // Access the total count from the Redux store
+        // Access the total count of job types from the Redux store
 
         const {  total: totalJobTypes } = useSelector((state) => state.jobTypeAll);
 
-         // Dispatch the action to load the component mounts
+         // Dispatch the action to load job types when the component mounts
         const dispatch = useDispatch();
         useEffect(() => {
             dispatch(jobTypeLoadAction());
