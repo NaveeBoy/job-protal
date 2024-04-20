@@ -10,20 +10,24 @@ import { jobTypeLoadAction } from '../../redux/actions/jobTypeAction';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import  {jobAllLoadAction} from '../../redux/actions/jobAction';
+import {allUserAction} from '../../redux/actions/userAction';
+
 
 
 const AdminDashboard = () => {
 
         // Access the total count of job types from the Redux store
 
-        const {  total: totalJobTypes } = useSelector((state) => state.jobTypeAll);
+        const {total: totalJobTypes} = useSelector((state) => state.jobTypeAll);
         const {total:totalJobs} = useSelector((state)=>state.alljobs);
+        const {total:totalUsers} = useSelector((state)=>state.allUsersDash);
 
          // Dispatch the action to load job types when the component mounts
         const dispatch = useDispatch();
         useEffect(() => {
             dispatch(jobTypeLoadAction());
             dispatch(jobAllLoadAction());
+            dispatch(allUserAction());
         }, [dispatch]);
 
 
@@ -40,9 +44,9 @@ const AdminDashboard = () => {
                 >
 
                     <StatComponent
-                        value="45621"
+                        value={totalUsers}
                         icon={<SupervisorAccountIcon sx={{ color: "#fafafa", fontSize: 30 }} />}
-                        description="Administrators"
+                        description="Users"
                         money=''
                     />
                     <StatComponent

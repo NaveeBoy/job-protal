@@ -146,3 +146,22 @@ export const allUserReducer = (state = { users: [] }, action) => {
 
 }
 
+//allUser
+export const allUserLoadReducer = (state = { users: [], total: 0 }, action) => {
+    switch (action.type) {
+        case ALL_USER_LOAD_REQUEST:
+            return { loading: true, users: [] }
+        case ALL_USER_LOAD_SUCCESS:
+            return {
+                loading: false,
+                users: action.payload.users,
+                total: action.payload.total
+            }
+        case ALL_USER_LOAD_FAIL:
+            return { loading: false, users: [], error: action.payload }
+        case ALL_USER_LOAD_RESET:
+            return {}
+        default:
+            return state;
+    }
+}
