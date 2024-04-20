@@ -4,7 +4,7 @@ const ErrorResponse = require('../utils/errorResponse');
 //load all users
 exports.allUsers = async (req, res, next) => {
     //enable pagination
-    const pageSize = 10;
+    const pageSize = 10000;
     const page = Number(req.query.pageNumber) || 1;
     const count = await User.find({}).estimatedDocumentCount();
 

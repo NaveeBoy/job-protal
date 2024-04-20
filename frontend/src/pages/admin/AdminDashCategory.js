@@ -20,7 +20,7 @@ const JobTypeTable = () => {
     return (
         <>
         <Typography variant="h4" sx={{ color: "white", pb: 3 }}>
-                Job Types list
+                Job Cetegory list
         </Typography>
             <div >
                 <CategoryAdd/>
