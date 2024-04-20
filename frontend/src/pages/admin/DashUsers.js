@@ -30,22 +30,22 @@ const DashUsers = () => {
         {
             field: '_id',
             headerName: 'User ID',
-            width: 150,
+            width: 250,
             editable: true,
         },
 
         {
             field: 'email',
             headerName: 'E_mail',
-            width: 150,
+            width: 300,
         },
 
         {
             field: 'role',
             headerName: 'User status',
-            width: 150,
+            width: 100,
             renderCell: (params) => (
-                params.row.role === 1 ? "Admin" : "Regular user"
+                params.row.role === 1 ? "Admin" : params.row.role === 0 ?"Regular user":"Company"
             )
         },
 

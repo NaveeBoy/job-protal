@@ -30,7 +30,16 @@ const AdminDashboard = () => {
             dispatch(allUserAction());
         }, [dispatch]);
 
-
+    fetch('/api/allusers')
+    .then(response => response.json())
+    .then(data => {
+        const count = data.count;
+        // Get the <h1> element by its ID or any other selector
+        const pElement = document.getElementById('countHeader');
+        // Set the count value as the inner HTML content of the <h1> element
+        pElement.innerHTML = `${count}`;
+    })
+    .catch(error => console.error('Error:', error));
 
     return (
         <>
@@ -39,24 +48,24 @@ const AdminDashboard = () => {
                     Dashboard
                 </Typography>
                 <Stack
-                    direction={{ xs: 'column', sm: 'row' }}
+                    direction={{ xs: 'column', sm: 'row',ml:3 }}
                     spacing={{ xs: 1, sm: 2, md: 4 }}
                 >
 
                     <StatComponent
-                        value={totalUsers}
+                        value= {<p id="countHeader"></p>}
                         icon={<SupervisorAccountIcon sx={{ color: "#fafafa", fontSize: 30 }} />}
                         description="Users"
                         money=''
                     />
                     <StatComponent
-                        value={totalJobs}
+                        value={<p>{totalJobs}</p>}
                         icon={<WorkIcon sx={{ color: "#fafafa", fontSize: 30 }} />}
                         description="Jobs"
                         money=''
                     />
                     <StatComponent
-                        value={totalJobTypes}
+                        value={<p>{totalJobTypes}</p>}
                         icon={<CategoryIcon sx={{ color: "#fafafa", fontSize: 30 }} />}
                         description="Jobs categories"
                         money=''
