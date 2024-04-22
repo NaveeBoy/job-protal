@@ -1,17 +1,10 @@
-import {
-  Button,
-  Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  TextField,
-} from "@mui/material";
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { jobTypeLoadAction } from '../../redux/actions/jobTypeAction';
 
 const AdminAddPopUp = () => {
   const [open, setOpen] = useState(false);
@@ -30,35 +23,12 @@ const AdminAddPopUp = () => {
     setOpen(false);
   };
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
   const collectData = async (e) => {
     e.preventDefault();
 
     // Check if all required fields are filled
-    if (!firstName || !lastName || !email || !password || !confirmPassword) {
+    if (!title || !description || !salary || !jobTime || !location || !jobType) {
       toast.error("All fields are required");
-      return;
-    }
-
-    // Email validation
-    if (!validateEmail(email)) {
-      toast.error("Invalid email address");
-      return;
-    }
-
-    // Check if password is at least 8 characters
-    if (password.length < 8) {
-      toast.error("Password must be at least 8 characters long");
-      return;
-    }
-
-    // Check if password and confirm password match
-    if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
       return;
     }
 
@@ -84,12 +54,19 @@ const AdminAddPopUp = () => {
 
       const data = await response.json();
       localStorage.setItem("user", JSON.stringify(data));
-      toast.success("Admin Creation successfully");
+      toast.success("Admin Creation successful");
       closePopup();
     } catch (error) {
-      toast.error("Admin Creation Failed ");
+      toast.error("Admin Creation Failed");
     }
   };
+
+  const dispatch = useDispatch();
+  const { loading, error, jobTypes } = useSelector((state) => state.jobType); // Adjust this line according to your Redux store structure
+
+  useEffect(() => {
+    dispatch(jobTypeLoadAction());
+  }, [dispatch]);
 
   return (
     <div style={{ textAlign: "center" }}>
@@ -134,10 +111,14 @@ const AdminAddPopUp = () => {
               </div>
 
               <div>
-                <label>Select Job Type  :</label>    
-                    <Checkbox /><lable>Full Time</lable>
-                    <Checkbox/><label>Part Time</label>
-                    <Checkbox/><label>Both Type</label>
+                <label>Select Job Type: &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                {jobTypes.map((jobType) => (
+                  <Checkbox
+                    key={jobType._id}
+                    checked={jobType === jobType} // Adjust this line accordingly
+                    onChange={() => setJobType(jobType)}
+                  />
+                ))}
               </div>
 
               <Button
