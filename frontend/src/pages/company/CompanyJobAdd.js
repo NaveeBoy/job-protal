@@ -1,16 +1,26 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  TextField,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminAddPopUp = () => {
   const [open, setOpen] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [salary, setSalary] = useState("");
+  const [jobTime, setJobTime] = useState("");
+  const [location, setLocation] = useState("");
+  const [jobType, setJobType] = useState("");
 
   const openPopup = () => {
     setOpen(true);
@@ -30,47 +40,54 @@ const AdminAddPopUp = () => {
 
     // Check if all required fields are filled
     if (!firstName || !lastName || !email || !password || !confirmPassword) {
-      toast.error('All fields are required');
+      toast.error("All fields are required");
       return;
     }
 
     // Email validation
     if (!validateEmail(email)) {
-      toast.error('Invalid email address');
+      toast.error("Invalid email address");
       return;
     }
 
     // Check if password is at least 8 characters
     if (password.length < 8) {
-      toast.error('Password must be at least 8 characters long');
+      toast.error("Password must be at least 8 characters long");
       return;
     }
 
     // Check if password and confirm password match
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
+      toast.error("Passwords do not match");
       return;
     }
 
     try {
-      const response = await fetch("http://localhost:9000/api/signup", {
+      const response = await fetch("http://localhost:9000/api/job/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ firstName, lastName, email, password }),
+        body: JSON.stringify({
+          title,
+          description,
+          salary,
+          jobTime,
+          location,
+          jobType,
+        }),
       });
-      
+
       if (!response.ok) {
-        throw new Error('Failed to send data');
+        throw new Error("Failed to send data");
       }
 
       const data = await response.json();
       localStorage.setItem("user", JSON.stringify(data));
-      toast.success('Admin Creation successfully');
+      toast.success("Admin Creation successfully");
       closePopup();
     } catch (error) {
-      toast.error('Admin Creation Failed ');
+      toast.error("Admin Creation Failed ");
     }
   };
 
@@ -80,56 +97,56 @@ const AdminAddPopUp = () => {
         + Create Admin
       </Button>
       <Dialog open={open} onClose={closePopup} fullWidth maxWidth="sm">
-        <DialogTitle>Create New Admin<IconButton onClick={closePopup} style={{ float: "right" }}><CloseIcon color="primary" /></IconButton></DialogTitle>
+        <DialogTitle>
+          Create New Admin
+          <IconButton onClick={closePopup} style={{ float: "right" }}>
+            <CloseIcon color="primary" />
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
           <div className="container">
-            <br/>
+            <br />
             <form onSubmit={collectData}>
-              <div style={{ marginBottom: '1rem' }}>
+              <div style={{ marginBottom: "1rem" }}>
                 <TextField
-                  label="First Name"
+                  label="Job Title"
                   fullWidth
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
-              <div style={{ marginBottom: '1rem' }}>
+              <div style={{ marginBottom: "1rem" }}>
                 <TextField
-                  label="Last Name"
+                  label="Job Description"
                   fullWidth
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
-              <div style={{ marginBottom: '1rem' }}>
+              <div style={{ marginBottom: "1rem" }}>
                 <TextField
-                  label="Email Address"
-                  type="email"
+                  label="Job Salary"
+                  type="number"
                   fullWidth
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={salary}
+                  onChange={(e) => setSalary(e.target.value)}
                 />
               </div>
-              <div style={{ marginBottom: '1rem' }}>
-                <TextField
-                  label="Password"
-                  type="password"
-                  fullWidth
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+
+              <div>
+                <label>Select Job Type  :</label>    
+                    <Checkbox /><lable>Full Time</lable>
+                    <Checkbox/><label>Part Time</label>
+                    <Checkbox/><label>Both Type</label>
               </div>
-              <div style={{ marginBottom: '1rem' }}>
-                <TextField
-                  label="Confirm Password"
-                  type="password"
-                  fullWidth
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-              </div>
-              <Button type="submit" color="primary" variant="contained" fullWidth>
-                Create Admin
+
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                fullWidth
+              >
+                Create New Job
               </Button>
             </form>
           </div>

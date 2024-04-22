@@ -25,6 +25,7 @@ import DashCategory from './pages/admin/AdminDashCategory.js';
 import CategoryAdd from './pages/admin/CategoryAddPopUp.js';
 import CompanyDashboard from './pages/company/CompanyDashBoard.js';
 import Mypost from './pages/company/MyPosts.js';
+import CompanyJobAdd from './pages/company/CompanyJobAdd.js';
 
 //HOC
 
@@ -39,7 +40,7 @@ const AdminAddPopUp = Layout(AdminAdd);
 const CategoryAddPopUp =Layout(CategoryAdd);
 const CompanyDashboardHOC = Layout(CompanyDashboard);
 const MypostHOC=Layout(Mypost);
-
+const CompanyJobAddpop = Layout(CompanyJobAdd);
 
 
 
@@ -63,6 +64,7 @@ const App = () => {
                             <Route path='/job/:id' element={<SingleJob />} />
                             <Route path='/admin/dashboard' element={<AdminRoute><AdminDashboardHOC /></AdminRoute>} />
                             <Route path='/company/dashboard' element={<CompanyRoute><CompanyDashboardHOC /></CompanyRoute>} />
+                            <Route path='/company/jobadd' element={<CompanyRoute><CompanyJobAddpop /></CompanyRoute>} />
                             <Route path='/admin/users' element={<AdminRoute><DashUsersHOC /></AdminRoute>} />
                             <Route path='/admin/jobs' element={<AdminRoute><DashJobsHOC /></AdminRoute>} />
                             <Route path='/admin/AdminAddPopUp' element={<AdminRoute><AdminAddPopUp /></AdminRoute>} />
