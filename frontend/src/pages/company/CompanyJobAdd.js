@@ -1,8 +1,23 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, FormControl, InputLabel, Select, MenuItem, Checkbox } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CompanyJobAdd = () => {
   const [open, setOpen] = useState(false);
@@ -25,8 +40,15 @@ const CompanyJobAdd = () => {
     e.preventDefault();
 
     // Check if all required fields are filled
-    if (!title || !description || !salary || !location || !jobType || !jobTime) {
-      toast.error('All fields are required');
+    if (
+      !title ||
+      !description ||
+      !salary ||
+      !location ||
+      !jobType ||
+      !jobTime
+    ) {
+      toast.error("All fields are required");
       return;
     }
 
@@ -36,18 +58,25 @@ const CompanyJobAdd = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, description, salary, location, jobType, jobTime }),
+        body: JSON.stringify({
+          title,
+          description,
+          salary,
+          location,
+          jobType,
+          jobTime,
+        }),
       });
-      
+
       if (!response.ok) {
-        throw new Error('Failed to send data');
+        throw new Error("Failed to send data");
       }
 
       const data = await response.json();
-      toast.success('Job created successfully');
+      toast.success("Job created successfully");
       closePopup();
     } catch (error) {
-      toast.error('Job creation failed');
+      toast.error("Job creation failed");
     }
   };
 
@@ -57,12 +86,17 @@ const CompanyJobAdd = () => {
         + Add Job
       </Button>
       <Dialog open={open} onClose={closePopup} fullWidth maxWidth="sm">
-        <DialogTitle>Add New Job<IconButton onClick={closePopup} style={{ float: "right" }}><CloseIcon color="primary" /></IconButton></DialogTitle>
+        <DialogTitle>
+          Add New Job
+          <IconButton onClick={closePopup} style={{ float: "right" }}>
+            <CloseIcon color="primary" />
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
           <div className="container">
-            <br/>
+            <br />
             <form onSubmit={collectData}>
-              <div style={{ marginBottom: '1rem' }}>
+              <div style={{ marginBottom: "1rem" }}>
                 <TextField
                   label="Title"
                   fullWidth
@@ -70,7 +104,7 @@ const CompanyJobAdd = () => {
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
-              <div style={{ marginBottom: '1rem' }}>
+              <div style={{ marginBottom: "1rem" }}>
                 <TextField
                   label="Description"
                   fullWidth
@@ -79,7 +113,7 @@ const CompanyJobAdd = () => {
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
-              <div style={{ marginBottom: '1rem' }}>
+              <div style={{ marginBottom: "1rem" }}>
                 <TextField
                   label="Salary"
                   fullWidth
@@ -87,7 +121,7 @@ const CompanyJobAdd = () => {
                   onChange={(e) => setSalary(e.target.value)}
                 />
               </div>
-              <div style={{ marginBottom: '1rem' }}>
+              <div style={{ marginBottom: "2rem" }}>
                 <TextField
                   label="Location"
                   fullWidth
@@ -95,9 +129,9 @@ const CompanyJobAdd = () => {
                   onChange={(e) => setLocation(e.target.value)}
                 />
               </div>
-              <div style={{ marginBottom: '1rem' }}>
+              <div style={{ marginBottom: "1rem" }}>
                 <FormControl fullWidth>
-                  <InputLabel id="job-type-label">Job Type</InputLabel>
+                  <InputLabel id="job-type-label">Job Category</InputLabel>
                   <Select
                     labelId="job-type-label"
                     value={jobType}
@@ -110,11 +144,40 @@ const CompanyJobAdd = () => {
                   </Select>
                 </FormControl>
               </div>
-              <div style={{ marginBottom: '1rem' }}>
-                <label>Select Jop Tmie</label>
-                <Checkbox></Checkbox>
+
+              <div style={{ marginBottom: "1rem" }}>
+                <FormControl component="fieldset">
+                  <RadioGroup
+                    row
+                    aria-label="job-time"
+                    name="job-time"
+                    value={jobTime}
+                    onChange={(e) => setJobTime(e.target.value)}
+                  >
+                    <FormControlLabel
+                      value="full-time"
+                      control={<Radio />}
+                      label="Full Time"
+                    />
+                    <FormControlLabel
+                      value="part-time"
+                      control={<Radio />}
+                      label="Part Time"
+                    />
+                    <FormControlLabel
+                      value="both"
+                      control={<Radio />}
+                      label="Both"
+                    />
+                  </RadioGroup>
+                </FormControl>
               </div>
-              <Button type="submit" color="primary" variant="contained" fullWidth>
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                fullWidth
+              >
                 Add Job
               </Button>
             </form>
