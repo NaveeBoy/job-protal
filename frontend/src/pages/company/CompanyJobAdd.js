@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Dialog,
@@ -15,9 +16,7 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import axios from 'axios';
 
 const CompanyJobAdd = () => {
   const [open, setOpen] = useState(false);
@@ -27,6 +26,24 @@ const CompanyJobAdd = () => {
   const [location, setLocation] = useState("");
   const [jobType, setJobType] = useState("");
   const [jobTime, setJobTime] = useState("");
+  const [jobTypes, setJobTypes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchJobTypes = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get('/api/type/jobs');
+        setJobTypes(response.data.jobT);
+        setLoading(false);
+      } catch (error) {
+        setError("Failed to fetch job types");
+        setLoading(false);
+      }
+    };
+    fetchJobTypes();
+  }, []);
 
   const openPopup = () => {
     setOpen(true);
@@ -36,47 +53,35 @@ const CompanyJobAdd = () => {
     setOpen(false);
   };
 
+  const handleJobTypeChange = (event) => {
+    setJobType(event.target.value);
+  };
+
   const collectData = async (e) => {
     e.preventDefault();
 
     // Check if all required fields are filled
-    if (
-      !title ||
-      !description ||
-      !salary ||
-      !location ||
-      !jobType ||
-      !jobTime
-    ) {
-      toast.error("All fields are required");
+    if (!title || !description || !salary || !location || !jobType || !jobTime) {
+      setError("All fields are required");
       return;
     }
 
     try {
-      const response = await fetch("http://localhost:9000/api/job/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          description,
-          salary,
-          location,
-          jobType,
-          jobTime,
-        }),
+      const response = await axios.post("http://localhost:9000/api/job/create", {
+        title,
+        description,
+        salary,
+        location,
+        jobType,
+        jobTime,
       });
-
       if (!response.ok) {
         throw new Error("Failed to send data");
       }
-
-      const data = await response.json();
       toast.success("Job created successfully");
       closePopup();
     } catch (error) {
-      toast.error("Job creation failed");
+      setError("Job creation failed");
     }
   };
 
@@ -121,7 +126,7 @@ const CompanyJobAdd = () => {
                   onChange={(e) => setSalary(e.target.value)}
                 />
               </div>
-              <div style={{ marginBottom: "2rem" }}>
+              <div style={{ marginBottom: "1rem" }}>
                 <TextField
                   label="Location"
                   fullWidth
@@ -131,16 +136,23 @@ const CompanyJobAdd = () => {
               </div>
               <div style={{ marginBottom: "1rem" }}>
                 <FormControl fullWidth>
-                  <InputLabel id="job-type-label">Job Category</InputLabel>
+                  <InputLabel id="job-type-label">Job Type</InputLabel>
                   <Select
                     labelId="job-type-label"
                     value={jobType}
-                    onChange={(e) => setJobType(e.target.value)}
+                    onChange={handleJobTypeChange}
                   >
-                    <MenuItem value={"Full-time"}>Full-time</MenuItem>
-                    <MenuItem value={"Part-time"}>Part-time</MenuItem>
-                    <MenuItem value={"Contract"}>Contract</MenuItem>
-                    <MenuItem value={"Freelance"}>Freelance</MenuItem>
+                    {loading ? (
+                      <MenuItem disabled>Loading...</MenuItem>
+                    ) : error ? (
+                      <MenuItem disabled>{error}</MenuItem>
+                    ) : (
+                      jobTypes.map((jobType) => (
+                        <MenuItem key={jobType._id} value={jobType._id}>
+                          {jobType.name}
+                        </MenuItem>
+                      ))
+                    )}
                   </Select>
                 </FormControl>
               </div>
@@ -185,7 +197,6 @@ const CompanyJobAdd = () => {
         </DialogContent>
         <DialogActions></DialogActions>
       </Dialog>
-      <ToastContainer />
     </div>
   );
 };
