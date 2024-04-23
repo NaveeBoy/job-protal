@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, FormControl, InputLabel, Select, MenuItem, Checkbox } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { jobTypeLoadAction } from '../../redux/actions/jobTypeAction';
+import { useState } from "react";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const AdminAddPopUp = () => {
+const CompanyJobAdd = () => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [salary, setSalary] = useState("");
-  const [jobTime, setJobTime] = useState("");
   const [location, setLocation] = useState("");
   const [jobType, setJobType] = useState("");
+  const [jobTime, setJobTime] = useState("");
 
   const openPopup = () => {
     setOpen(true);
@@ -27,8 +25,8 @@ const AdminAddPopUp = () => {
     e.preventDefault();
 
     // Check if all required fields are filled
-    if (!title || !description || !salary || !jobTime || !location || !jobType) {
-      toast.error("All fields are required");
+    if (!title || !description || !salary || !location || !jobType || !jobTime) {
+      toast.error('All fields are required');
       return;
     }
 
@@ -38,96 +36,86 @@ const AdminAddPopUp = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          title,
-          description,
-          salary,
-          jobTime,
-          location,
-          jobType,
-        }),
+        body: JSON.stringify({ title, description, salary, location, jobType, jobTime }),
       });
-
+      
       if (!response.ok) {
-        throw new Error("Failed to send data");
+        throw new Error('Failed to send data');
       }
 
       const data = await response.json();
-      localStorage.setItem("user", JSON.stringify(data));
-      toast.success("Admin Creation successful");
+      toast.success('Job created successfully');
       closePopup();
     } catch (error) {
-      toast.error("Admin Creation Failed");
+      toast.error('Job creation failed');
     }
   };
-
-  const dispatch = useDispatch();
-  const { loading, error, jobTypes } = useSelector((state) => state.jobType); // Adjust this line according to your Redux store structure
-
-  useEffect(() => {
-    dispatch(jobTypeLoadAction());
-  }, [dispatch]);
 
   return (
     <div style={{ textAlign: "center" }}>
       <Button onClick={openPopup} color="success" variant="contained">
-        + Create Admin
+        + Add Job
       </Button>
       <Dialog open={open} onClose={closePopup} fullWidth maxWidth="sm">
-        <DialogTitle>
-          Create New Admin
-          <IconButton onClick={closePopup} style={{ float: "right" }}>
-            <CloseIcon color="primary" />
-          </IconButton>
-        </DialogTitle>
+        <DialogTitle>Add New Job<IconButton onClick={closePopup} style={{ float: "right" }}><CloseIcon color="primary" /></IconButton></DialogTitle>
         <DialogContent>
           <div className="container">
-            <br />
+            <br/>
             <form onSubmit={collectData}>
-              <div style={{ marginBottom: "1rem" }}>
+              <div style={{ marginBottom: '1rem' }}>
                 <TextField
-                  label="Job Title"
+                  label="Title"
                   fullWidth
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
-              <div style={{ marginBottom: "1rem" }}>
+              <div style={{ marginBottom: '1rem' }}>
                 <TextField
-                  label="Job Description"
+                  label="Description"
                   fullWidth
+                  multiline
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
-              <div style={{ marginBottom: "1rem" }}>
+              <div style={{ marginBottom: '1rem' }}>
                 <TextField
-                  label="Job Salary"
-                  type="number"
+                  label="Salary"
                   fullWidth
                   value={salary}
                   onChange={(e) => setSalary(e.target.value)}
                 />
               </div>
-
-              <div>
-                <label>Select Job Type: &nbsp;&nbsp;&nbsp;&nbsp;</label>
-                {jobTypes.map((jobType) => (
-                  <Checkbox
-                    key={jobType._id}
-                    checked={jobType === jobType} // Adjust this line accordingly
-                    onChange={() => setJobType(jobType)}
-                  />
-                ))}
+              <div style={{ marginBottom: '1rem' }}>
+                <TextField
+                  label="Location"
+                  fullWidth
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                />
               </div>
-
-              <Button
-                type="submit"
-                color="primary"
-                variant="contained"
-                fullWidth
-              >
-                Create New Job
+              <div style={{ marginBottom: '1rem' }}>
+                <FormControl fullWidth>
+                  <InputLabel id="job-type-label">Job Type</InputLabel>
+                  <Select
+                    labelId="job-type-label"
+                    value={jobType}
+                    onChange={(e) => setJobType(e.target.value)}
+                  >
+                    <MenuItem value={"Full-time"}>Full-time</MenuItem>
+                    <MenuItem value={"Part-time"}>Part-time</MenuItem>
+                    <MenuItem value={"Contract"}>Contract</MenuItem>
+                    <MenuItem value={"Freelance"}>Freelance</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              <div style={{ marginBottom: '1rem' }}>
+                <label>Select Jop Tmie</label>
+                <Checkbox></Checkbox>
+              </div>
+              <Button type="submit" color="primary" variant="contained" fullWidth>
+                Add Job
               </Button>
             </form>
           </div>
@@ -139,4 +127,4 @@ const AdminAddPopUp = () => {
   );
 };
 
-export default AdminAddPopUp;
+export default CompanyJobAdd;
