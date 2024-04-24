@@ -149,7 +149,7 @@ const CompanyJobAdd = () => {
                     ) : (
                       jobTypes.map((jobType) => (
                         <MenuItem key={jobType._id} value={jobType._id}>
-                          {jobType.name}
+                          {jobType.jobTypeName}
                         </MenuItem>
                       ))
                     )}
