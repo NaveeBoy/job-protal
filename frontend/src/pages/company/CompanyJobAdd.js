@@ -75,11 +75,13 @@ const CompanyJobAdd = () => {
         jobType,
         jobTime,
       });
-      if (!response.ok) {
+      if (response.status === 200) { // Assuming success status code is 200
+        // Handle success, perhaps show a success message
+        console.log("Job created successfully");
+        closePopup();
+      } else {
         throw new Error("Failed to send data");
       }
-      toast.success("Job created successfully");
-      closePopup();
     } catch (error) {
       setError("Job creation failed");
     }
