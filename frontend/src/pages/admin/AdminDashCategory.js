@@ -26,7 +26,7 @@ const JobTypeTable = () => {
                 <CategoryAdd/>
             </div>
             <br/>
-        <TableContainer component={Paper} sx={{ border: '1px solid #fff' ,height: 600 }}>
+        <TableContainer component={Paper} sx={{ border: '1px solid #fff' ,height: 400 }}>
             
             <Table >
                 <TableHead >
