@@ -30,7 +30,7 @@ const JobTypeTable = () => {
             
             <Table >
                 <TableHead >
-                    <TableRow sx={{ backgroundColor: 'secondary.midNightBlue'}}>
+                    <TableRow sx={{ backgroundColor: 'secondary.midNightBlue', position: 'sticky', top: 0}}>
                     {/* <TableCell sx={{ width: 5}}><Checkbox></Checkbox></TableCell> */}
                         <TableCell sx={{ color: 'primary.contrastText',width:"200" }}>ID</TableCell>
                         <TableCell sx={{ color: 'primary.contrastText' ,width:"200"}}>Category</TableCell>
