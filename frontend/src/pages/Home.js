@@ -165,7 +165,7 @@ const Home = () => {
               <Stack spacing={2}>
                 <Pagination
                   page={page}
-                  count={pages === 0 ? 1 : pages}
+                  count={pages === 0 ? 100 : pages}
                   onChange={(event, value) => setPage(value)}
                 />
               </Stack>
