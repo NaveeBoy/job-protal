@@ -122,7 +122,7 @@ const CompanyJobAdd = () => {
               </div>
               <div style={{ marginBottom: "1rem" }}>
                 <TextField
-                  label="Salary"
+                  label="Salary (Rs.)"
                   fullWidth
                   value={salary}
                   onChange={(e) => setSalary(e.target.value)}
