@@ -24,7 +24,7 @@ const CompanyJobAdd = () => {
   const [description, setDescription] = useState("");
   const [salary, setSalary] = useState("");
   const [location, setLocation] = useState("");
-  const [jobType, setJobType] = useState();
+  const [jobType, setJobType] = useState("");
   const [jobTime, setJobTime] = useState("");
   const [jobTypes, setJobTypes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -51,10 +51,6 @@ const CompanyJobAdd = () => {
 
   const closePopup = () => {
     setOpen(false);
-  };
-
-  const handleJobTypeChange = (event) => {
-    setJobType(event.target.value.toString());
   };
 
   const collectData = async (e) => {
@@ -142,7 +138,7 @@ const CompanyJobAdd = () => {
                   <Select
                     labelId="job-type-label"
                     value={jobType}
-                    onChange={handleJobTypeChange}
+                    onChange={(e) => setJobType(e.target.value)}
                   >
                     {loading ? (
                       <MenuItem disabled>Loading...</MenuItem>
@@ -157,6 +153,7 @@ const CompanyJobAdd = () => {
                     )}
                   </Select>
                 </FormControl>
+                {"job type ID : " + jobType}
               </div>
 
               <div style={{ marginBottom: "1rem" }}>
