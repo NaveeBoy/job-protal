@@ -24,7 +24,7 @@ const CompanyJobAdd = () => {
   const [description, setDescription] = useState("");
   const [salary, setSalary] = useState("");
   const [location, setLocation] = useState("");
-  const [jobType, setJobType] = useState("");
+  const [jobType, setJobType] = useState();
   const [jobTime, setJobTime] = useState("");
   const [jobTypes, setJobTypes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -54,7 +54,7 @@ const CompanyJobAdd = () => {
   };
 
   const handleJobTypeChange = (event) => {
-    setJobType(event.target.value);
+    setJobType(event.target.value.toString());
   };
 
   const collectData = async (e) => {
