@@ -125,6 +125,7 @@ const CompanyJobAdd = () => {
               </div>
               <div style={{ marginBottom: "1rem" }}>
                 <TextField
+                  type="number"
                   label="Salary (Rs.)"
                   fullWidth
                   value={salary}
