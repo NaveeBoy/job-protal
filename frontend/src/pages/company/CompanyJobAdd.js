@@ -63,7 +63,7 @@ const CompanyJobAdd = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:9000/api/job/create", {
+      const response = await axios.post("/api/job/create", {
         title,
         description,
         salary,
@@ -71,15 +71,22 @@ const CompanyJobAdd = () => {
         jobType,
         jobTime,
       });
-      if (response.status === 200) { // Assuming success status code is 200
-        // Handle success, perhaps show a success message
-        console.log("Job created successfully");
+
+      if (response.status === 201) {
+        // Job created successfully
+        setError("");
+        setTitle("");
+        setDescription("");
+        setSalary("");
+        setLocation("");
+        setJobType("");
+        setJobTime("");
         closePopup();
       } else {
-        throw new Error("Failed to send data");
+        setError("Failed to create job");
       }
     } catch (error) {
-      setError("Job creation failed");
+      setError("Failed to create job");
     }
   };
 
