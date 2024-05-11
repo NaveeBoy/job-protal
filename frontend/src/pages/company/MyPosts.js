@@ -11,12 +11,14 @@ const JobTable = () => {
         dispatch(jobLoadAction());
     }, [dispatch]);
 
+    console.log(jobs); // Add this line to log the jobs array
+
     return (
         <>
            <Typography variant="h4" sx={{ color: "white", pb: 3 }}>
                 Job Types list
             </Typography>
-            <TableContainer component={Paper} sx={{ border: '1px solid #fff' }}>
+            <TableContainer component={Paper} sx={{ border: '1px solid #fff',height: 400 }}>
             
             <Table >
                 <TableHead >
@@ -50,8 +52,11 @@ const JobTable = () => {
                         ))
                     )}
                 </TableBody>
+                
             </Table>
         </TableContainer>
+        
+
         </>
     );
 };
