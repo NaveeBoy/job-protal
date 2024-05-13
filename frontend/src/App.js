@@ -26,12 +26,14 @@ import CategoryAdd from './pages/admin/CategoryAddPopUp.js';
 import CompanyDashboard from './pages/company/CompanyDashBoard.js';
 import Mypost from './pages/company/MyPosts.js';
 import CompanyJobAdd from './pages/company/CompanyJobAdd.js';
+import CompanyInfoDashBoard from './pages/company/CompanyInfoDashBoard.js';
 
 //HOC
 
 const UserDashboardHOC = Layout(UserDashboard);
 const UserJobsHistoryHOC = Layout(UserJobsHistory);
 const UserInfoDashboardHOC = Layout(UserInfoDashboard);
+const CompanyInfoDashBoardHOC = Layout(CompanyInfoDashBoard);
 const AdminDashboardHOC = Layout(AdminDashboard);
 const DashUsersHOC = Layout(DashUsers);
 const DashJobsHOC = Layout(DashJobs);
@@ -73,6 +75,7 @@ const App = () => {
                             <Route path='/user/dashboard' element={<UserRoute>< UserDashboardHOC /></UserRoute>} />
                             <Route path='/user/jobs' element={<UserRoute>< UserJobsHistoryHOC /></UserRoute>} />
                             <Route path='/user/info' element={<UserRoute>< UserInfoDashboardHOC /></UserRoute>} />
+                            <Route path='/company/info' element={<CompanyRoute>< CompanyInfoDashBoardHOC /></CompanyRoute>} />
 
                             <Route path='*' element={<NotFound />} />
                         </Routes>
