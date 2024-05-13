@@ -29,7 +29,7 @@ const UserInfoDashboard = () => {
                             E-mail:  {user && user.email}
                         </Typography>
                         <Typography sx={{ mb: 1.5, color: "grey", pt: 2 }} color="text.secondary">
-                            Status: {user && user.role === 0 ? "Regular user" : "Admin"}
+                            Status: {user && user.role === 2 ? "Company Account" : "Admin"}
                         </Typography>
 
                     </CardContent>
