@@ -111,7 +111,7 @@ exports.showJobs = async (req, res, next) => {
 
 
     //enable pagination
-    const pageSize = 5;
+    const pageSize = 10000000000000000000000000000000000000;
     const page = Number(req.query.pageNumber) || 1;
     //const count = await Job.find({}).estimatedDocumentCount();
     const count = await Job.find({ ...keyword, jobType: categ, location: locationFilter ,jobTime:jobTimeFilter }).countDocuments();
