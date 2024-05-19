@@ -46,7 +46,7 @@ const Chatbot = () => {
         { message: `Hi, ${userMessage}!` },
         {
           message: 'What would you like to know?',
-          options: ['Contact', 'Email', 'Categories' ,'About us' ,"interview tips" ,"Apply"]
+          options: ['Contact', 'Email', 'Categories' ,'About us' ,"Interview tips" ,"Apply"]
         }
       ];
     } else {
