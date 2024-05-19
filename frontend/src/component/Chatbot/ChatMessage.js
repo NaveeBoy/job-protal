@@ -17,7 +17,7 @@ const ChatMessage = (props) => {
         </span>
       ) : (
         <span className="message-left">
-          <BsChatDots className="message-icon" />
+          <BsChatDots className="message-icon" style={{"marginRight":"10px"}} />
           <span className="message-text">{props.message}</span>
           {props.options && (
             <div className="options">
