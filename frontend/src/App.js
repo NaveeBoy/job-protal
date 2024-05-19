@@ -27,6 +27,7 @@ import CompanyDashboard from './pages/company/CompanyDashBoard.js';
 import Mypost from './pages/company/MyPosts.js';
 import CompanyJobAdd from './pages/company/CompanyJobAdd.js';
 import CompanyInfoDashBoard from './pages/company/CompanyInfoDashBoard.js';
+import ChatBot from './component/Chatbot/Chatbot.js'
 
 //HOC
 
@@ -57,6 +58,7 @@ const App = () => {
                     <BrowserRouter>
                         <Routes>
                             <Route path='/' element={<Home />} />
+                            <Route path='/chatbot' element={<ChatBot/>}/>
                             <Route path='/company/myposts' element={<CompanyRoute><MypostHOC /></CompanyRoute>} />
                             <Route path='/search/location/:location' element={<Home />} />
                             <Route path='/search/location/:jobTime' element={<Home />} />
