@@ -11,18 +11,18 @@ const ChatMessage = (props) => {
   return (
     <div className={`d-flex ${props.user && 'justify-content-end'}`}>
       {props.user ? (
-        <span className="message-right">
-          <span className="message-text">{props.message}</span>
-          <BsFillPersonFill className="message-icon" />
+        <span className="message-right" style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px'}}>
+          <span className="message-text" style={{ wordWrap: 'break-word'}}>{props.message}</span>
+          
         </span>
       ) : (
         <span className="message-left">
           <BsChatDots className="message-icon" style={{"marginRight":"10px"}} />
           <span className="message-text">{props.message}</span>
           {props.options && (
-            <div className="options">
+            <div className="options" >
               {props.options.map((option, index) => (
-                <button
+                <button style={{"fontSize":"17px"}}
                   key={index}
                   className="option-button"
                   onClick={() => handleClick(option)}
