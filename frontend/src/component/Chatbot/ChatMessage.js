@@ -11,8 +11,8 @@ const ChatMessage = (props) => {
   return (
     <div className={`d-flex ${props.user && 'justify-content-end'}`}>
       {props.user ? (
-        <span className="message-right" style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px'}}>
-          <span className="message-text" style={{ wordWrap: 'break-word'}}>{props.message}</span>
+        <span className="message-right" style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px',width:'auto'}}>
+          <span className="message-text" >{props.message}</span>
           
         </span>
       ) : (
