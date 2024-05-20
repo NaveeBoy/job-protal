@@ -22,12 +22,10 @@ import LoadingBox from "../component/LoadingBox";
 import SelectComponent from "../component/SelectComponent";
 import { jobTypeLoadAction } from "../redux/actions/jobTypeAction";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import ChatBot from '../component/Chatbot/Chatbot'
+import ChatBot from '../component/Chatbot/Chatbot';
 
 const Home = () => {
-  const { jobs, setUniqueLocation, setUniqueTime, pages, loading } =
-    useSelector((state) => state.loadJobs);
-
+  const { jobs, setUniqueLocation, setUniqueTime, pages, loading } = useSelector((state) => state.loadJobs);
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const { keyword, location, jobTime } = useParams();
@@ -53,62 +51,21 @@ const Home = () => {
         <Navbar />
         <Header />
         <Container>
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            spacing={{ xs: 1, sm: 2, md: 4 }}
-          >
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={{ xs: 1, sm: 2, md: 4 }}>
             <Box sx={{ flex: 2, p: 2 }}>
               <Card sx={{ minWidth: 150, mb: 3, mt: 3, p: 2 }}>
                 <Box sx={{ pb: 2 }}>
-                  <Typography
-                    component="h4"
-                    sx={{ color: palette.secondary.main, fontWeight: 600 }}
-                  >
+                  <Typography component="h4" sx={{ color: palette.secondary.main, fontWeight: 600 }}>
                     Filter job by category
                   </Typography>
                 </Box>
-                <SelectComponent
-                  handleChangeCategory={handleChangeCategory}
-                  cat={cat}
-                />
+                <SelectComponent handleChangeCategory={handleChangeCategory} cat={cat} />
               </Card>
 
-
-              {/* jobs by jobTime 
+              {/* Jobs by location */}
               <Card sx={{ minWidth: 150, mb: 3, mt: 3, p: 2 }}>
                 <Box sx={{ pb: 2 }}>
-                  {/* <h4>Filter by jobTypeName</h4> 
-                  <Typography
-                    component="h4"
-                    sx={{ color: palette.secondary.main, fontWeight: 600 }}
-                  >
-                    Filter job by Time
-                  </Typography>
-                  <MenuList>
-                    {setUniqueTime &&
-                      setUniqueTime.map((jobTime, i) => (
-                        <MenuItem key={i}>
-                          <Link to={`/search/jobTime/${jobTime}`}>
-                            {jobTime}
-                          </Link>
-                        </MenuItem>
-                      ))}
-                  </MenuList>
-                </Box>
-              </Card>
-            */}
-
-
-
-
-              {/* jobs by location */}
-              <Card sx={{ minWidth: 150, mb: 3, mt: 3, p: 2 }}>
-                <Box sx={{ pb: 2 }}>
-                  {/* <h4>Filter by category</h4> */}
-                  <Typography
-                    component="h4"
-                    sx={{ color: palette.secondary.main, fontWeight: 600 }}
-                  >
+                  <Typography component="h4" sx={{ color: palette.secondary.main, fontWeight: 600 }}>
                     Filter job by location
                   </Typography>
                   <MenuList>
@@ -116,16 +73,9 @@ const Home = () => {
                       setUniqueLocation.map((location, i) => (
                         <MenuItem key={i}>
                           <ListItemIcon>
-                            <LocationOnIcon
-                              sx={{
-                                color: palette.secondary.main,
-                                fontSize: 18,
-                              }}
-                            />
+                            <LocationOnIcon sx={{ color: palette.secondary.main, fontSize: 18 }} />
                           </ListItemIcon>
-                          <Link to={`/search/location/${location}`}>
-                            {location}
-                          </Link>
+                          <Link to={`/search/location/${location}`}>{location}</Link>
                         </MenuItem>
                       ))}
                   </MenuList>
@@ -136,18 +86,16 @@ const Home = () => {
               {loading ? (
                 <LoadingBox />
               ) : jobs && jobs.length === 0 ? (
-                <>
-                  <Box
-                    sx={{
-                      minHeight: "350px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <h2>No result found!</h2>
-                  </Box>
-                </>
+                <Box
+                  sx={{
+                    minHeight: "350px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <h2>No result found!</h2>
+                </Box>
               ) : (
                 jobs &&
                 jobs.map((job, i) => (
@@ -156,10 +104,10 @@ const Home = () => {
                     id={job._id}
                     jobTitle={job.title}
                     description={job.description}
-                    category={
-                      job.jobType ? job.jobType.jobTypeName : "No category"
-                    }
+                    category={job.jobType ? job.jobType.jobTypeName : "No category"}
                     location={job.location}
+                    time={job.time} // Pass the time prop
+                    showStatusButton={false} // Do not show status button on home page
                   />
                 ))
               )}
@@ -174,7 +122,7 @@ const Home = () => {
           </Stack>
         </Container>
       </Box>
-      <ChatBot/>
+      <ChatBot />
       <Footer />
     </>
   );

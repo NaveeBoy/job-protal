@@ -10,7 +10,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 
-const CardElement = ({ jobTitle, description, category, location, id, applicationStatus, showStatusButton }) => {
+const CardElement = ({ jobTitle, description, category, location, id, applicationStatus, showStatusButton ,jobTime }) => {
     const { palette } = useTheme();
     const [showStatus, setShowStatus] = React.useState(false);
 
@@ -35,7 +35,7 @@ const CardElement = ({ jobTitle, description, category, location, id, applicatio
                 </Typography>
                 {showStatus && (
                     <Typography variant="body2" sx={{ mt: 1 }}>
-                       <h3> Application Status: {applicationStatus}</h3>
+                       <h3 style={{background:"#5ac8fa",width:"230px"}}> Application Status: {applicationStatus}</h3>
                     </Typography>
                 )}
             </CardContent>
