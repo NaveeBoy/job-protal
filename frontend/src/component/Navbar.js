@@ -196,7 +196,7 @@ const Navbar = () => {
                   </Typography>
                 </MenuItem>
               )}
-                            {userInfo?.role === 0 && ( // Admin
+              {userInfo?.role === 0 && ( // Admin
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">
                     <Link
@@ -255,9 +255,7 @@ const Navbar = () => {
               )}
             </Menu>
           </Box>
-          <Box>
-            
-          </Box>
+          <Box></Box>
         </Toolbar>
       </Container>
     </AppBar>
