@@ -196,6 +196,21 @@ const Navbar = () => {
                   </Typography>
                 </MenuItem>
               )}
+                            {userInfo?.role === 0 && ( // Admin
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">
+                    <Link
+                      style={{
+                        textDecoration: "none",
+                        color: palette.primary.main,
+                      }}
+                      to="/user/dashboard"
+                    >
+                      User Dashboard
+                    </Link>
+                  </Typography>
+                </MenuItem>
+              )}
               {userInfo?.role === 2 && ( // Company
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">
