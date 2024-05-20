@@ -30,13 +30,15 @@ const UserDashboard = () => {
                     <StatComponent
                         value={user && user.jobsHistory.length}
                         icon={<WorkIcon sx={{ color: "#fafafa", fontSize: 30 }} />}
-                        description="Number of jobs submitted"
+                        description="Number of jobs Applied"
                         money=''
                     />
 
 
                 </Stack>
             </Box>
+
+            
 
         </>
     )

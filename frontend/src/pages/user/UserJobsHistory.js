@@ -21,8 +21,11 @@ const UserJobsHistory = () => {
                                 id={history._id}
                                 jobTitle={history.title}
                                 description={history.description}
-                                category=''
+                                category={history.category}
                                 location={history.location}
+                                applicationStatus={history.applicationStatus}
+                                showStatusButton={true}
+
                             />
                         ))
                     }
