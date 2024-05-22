@@ -50,7 +50,7 @@ const SeekersTable = () => {
     return (
         <>
             <Typography variant="h4" sx={{ color: "white", pb: 3 ,textAlign:"center"}}>
-            job application
+            Job Applications
             </Typography>
             {loading ? (
                 <Typography>Loading...</Typography>
