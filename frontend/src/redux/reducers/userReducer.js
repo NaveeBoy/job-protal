@@ -17,7 +17,10 @@ import {
     USER_SIGNIN_FAIL,
     USER_SIGNIN_REQUEST,
     USER_SIGNIN_RESET,
-    USER_SIGNIN_SUCCESS
+    USER_SIGNIN_SUCCESS,
+    ALL_SEEKERS_LOAD_REQUEST,
+    ALL_SEEKERS_LOAD_SUCCESS,
+    ALL_SEEKERS_LOAD_FAIL
 } from "../constants/userConstant"
 
 
@@ -165,3 +168,18 @@ export const allUserLoadReducer = (state = { users: [], total: 0 }, action) => {
             return state;
     }
 }
+
+// all seekers
+
+export const allSeekersReducer = (state = { seekers: [] }, action) => {
+    switch (action.type) {
+        case ALL_SEEKERS_LOAD_REQUEST:
+            return { loading: true, seekers: [] };
+        case ALL_SEEKERS_LOAD_SUCCESS:
+            return { loading: false, seekers: action.payload };
+        case ALL_SEEKERS_LOAD_FAIL:
+            return { loading: false, error: action.payload };
+        default:
+            return state;
+    }
+};

@@ -15,7 +15,10 @@ import {
     USER_LOGOUT_SUCCESS,
     USER_SIGNIN_FAIL,
     USER_SIGNIN_REQUEST,
-    USER_SIGNIN_SUCCESS
+    USER_SIGNIN_SUCCESS,
+    ALL_SEEKERS_LOAD_REQUEST,
+    ALL_SEEKERS_LOAD_SUCCESS,
+    ALL_SEEKERS_LOAD_FAIL
 } from '../constants/userConstant';
 
 
@@ -135,5 +138,22 @@ export const userApplyJobAction = (job) => async (dispatch) => {
             payload: error.response.data.error
         });
         toast.error("You must need to be a Registred User");
+    }
+}
+
+// get all seekers action
+export const allSeekersAction = () => async (dispatch) => {
+    dispatch({ type: ALL_SEEKERS_LOAD_REQUEST });
+    try {
+        const { data } = await axios.get("/api/seekers");
+        dispatch({
+            type: ALL_SEEKERS_LOAD_SUCCESS,
+            payload: data
+        });
+    } catch (error) {
+        dispatch({
+            type: ALL_SEEKERS_LOAD_FAIL,
+            payload: error.response.data.error
+        });
     }
 }

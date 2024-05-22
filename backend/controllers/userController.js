@@ -105,7 +105,19 @@ exports.createUserJobsHistory = async (req, res, next) => {
     }
 }
 
-
+// Get all seekers
+exports.allSeekers = async (req, res, next) => {
+    try {
+        const seekers = await User.find({ role: 0 }).select('-password');
+        res.status(200).json({
+            success: true,
+            seekers
+        });
+        next();
+    } catch (error) {
+        return next(error);
+    }
+};
 
 
 
