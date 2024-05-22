@@ -28,6 +28,7 @@ import Mypost from './pages/company/MyPosts.js';
 import CompanyJobAdd from './pages/company/CompanyJobAdd.js';
 import CompanyInfoDashBoard from './pages/company/CompanyInfoDashBoard.js';
 import ChatBot from './component/Chatbot/Chatbot.js'
+import SeekersTable from './pages/company/SeekersTable.js';
 
 //HOC
 
@@ -44,6 +45,7 @@ const CategoryAddPopUp =Layout(CategoryAdd);
 const CompanyDashboardHOC = Layout(CompanyDashboard);
 const MypostHOC=Layout(Mypost);
 const CompanyJobAddpop = Layout(CompanyJobAdd);
+const SeekersTableHOC = Layout(SeekersTable);
 
 
 
@@ -78,6 +80,7 @@ const App = () => {
                             <Route path='/user/jobs' element={<UserRoute>< UserJobsHistoryHOC /></UserRoute>} />
                             <Route path='/user/info' element={<UserRoute>< UserInfoDashboardHOC /></UserRoute>} />
                             <Route path='/company/info' element={<CompanyRoute>< CompanyInfoDashBoardHOC /></CompanyRoute>} />
+                            <Route path='/company/seekers' element={<CompanyRoute>< SeekersTableHOC /></CompanyRoute>} />
 
                             <Route path='*' element={<NotFound />} />
                         </Routes>

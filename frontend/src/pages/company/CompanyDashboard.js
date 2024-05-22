@@ -7,13 +7,18 @@ import WorkIcon from '@mui/icons-material/Work';
 import { useSelector } from 'react-redux'
 import moment from 'moment'
 import JobAdd from './CompanyJobAdd'
+import SeekersTable from './SeekersTable';
 
 const CompanyDashboard = () => {
     
     return (
         <>
             <JobAdd/>
-
+            <br/>
+            <hr></hr>
+            <br/>
+           
+            <SeekersTable/>
         </>
     )
 }

@@ -145,15 +145,18 @@ export const userApplyJobAction = (job) => async (dispatch) => {
 export const allSeekersAction = () => async (dispatch) => {
     dispatch({ type: ALL_SEEKERS_LOAD_REQUEST });
     try {
-        const { data } = await axios.get("/api/seekers");
+        const { data } = await axios.get("http://localhost:9000/api/seekers");
         dispatch({
             type: ALL_SEEKERS_LOAD_SUCCESS,
-            payload: data
+            payload: data.seekers
         });
     } catch (error) {
         dispatch({
             type: ALL_SEEKERS_LOAD_FAIL,
-            payload: error.response.data.error
+            payload: error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
         });
+        toast.error(error.response.data.error || error.message);
     }
 }
