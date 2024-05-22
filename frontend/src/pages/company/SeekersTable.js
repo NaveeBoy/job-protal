@@ -63,7 +63,7 @@ const SeekersTable = () => {
                             <TableRow sx={{ backgroundColor: 'secondary.midNightBlue', position: 'sticky', top: 0 }}>
                                 <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200 }}>First Name</TableCell>
                                 <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200 }}>Last Name</TableCell>
-                                <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200 }}>Job History Details</TableCell>
+                                <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200 }}>Job Apply Details</TableCell>
                                 <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200 }}>Action</TableCell>
                             </TableRow>
                         </TableHead>
