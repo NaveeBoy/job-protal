@@ -9,13 +9,25 @@ import {
     TableRow,
     Paper,
     Typography,
-    Button
+    Button,
+    Box
 } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import { jobLoadAction } from '../../redux/actions/jobAction'; // Assuming you have a loadJobsAction in your jobAction file
 
 const SeekersTable = () => {
     const [seekers, setSeekers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+
+    const dispatch = useDispatch();
+    const { jobs } = useSelector((state) => state.loadJobs);
+    const { user } = useSelector(state => state.userProfile);
+    const uid = user && user._id;
+
+    useEffect(() => {
+        dispatch(jobLoadAction());
+    }, [dispatch]);
 
     useEffect(() => {
         const fetchSeekers = async () => {
@@ -34,93 +46,111 @@ const SeekersTable = () => {
 
     const handleAccept = (id) => {
         // Handle accept logic here
-        console.log(`Accepted seeker with id: ${id}`);
+        console.log(`Accepted job with id: ${id}`);
     };
 
     const handleReject = (id) => {
         // Handle reject logic here
-        console.log(`Rejected seeker with id: ${id}`);
+        console.log(`Rejected job with id: ${id}`);
     };
 
     const handlePutOnCV = (id) => {
         // Handle put on CV logic here
-        console.log(`Put on CV seeker with id: ${id}`);
+        console.log(`Put on CV job with id: ${id}`);
     };
+
+    const filterSeekers = () => {
+        if (!jobs || !seekers) return [];
+
+        return seekers.map(seeker => ({
+            ...seeker,
+            jobsHistory: seeker.jobsHistory.filter(jobHistory => 
+                jobs.some(job => 
+                    job.user && job.user._id === uid &&
+                    job.title === jobHistory.title &&
+                    job.description === jobHistory.description &&
+                    job.location === jobHistory.location &&
+                    job.salary === jobHistory.salary
+                )
+            )
+        })).filter(seeker => seeker.jobsHistory.length > 0);
+    };
+
+    const filteredSeekers = filterSeekers();
 
     return (
         <>
-            <Typography variant="h4" sx={{ color: "white", pb: 3 ,textAlign:"center"}}>
-            Job Applications
+            {/* <h1>{user && user.firstName} {user && user.lastName} {uid}</h1> */}
+            <Typography variant="h4" sx={{ color: "white", pb: 3, textAlign: "center" }}>
+                Job Applications
             </Typography>
             {loading ? (
                 <Typography>Loading...</Typography>
             ) : error ? (
                 <Typography>Error: {error}</Typography>
             ) : (
-                <TableContainer component={Paper} sx={{ border: '1px solid #fff', height: 370, position: 'relative',backgroundColor: '#0277bd' }}>
+                <TableContainer component={Paper} sx={{ border: '1px solid #fff', height: 370, position: 'relative', backgroundColor: '#0277bd' }}>
                     <Table>
                         <TableHead>
                             <TableRow sx={{ backgroundColor: 'secondary.midNightBlue', position: 'sticky', top: 0 }}>
                                 <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200 }}>First Name</TableCell>
                                 <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200 }}>Last Name</TableCell>
-                                <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200 }}>Job Apply Details</TableCell>
-                                <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200 }}>Action</TableCell>
+                                <TableCell align="center" sx={{ color: 'primary.contrastText', width: 400 }}>Job Apply Details</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody sx={{ backgroundColor: 'secondary.midNightBlue', paddingTop: '48px' }}>
-                            {seekers.map(seeker => (
-                                <TableRow key={seeker._id} sx={{ backgroundColor: '#0277bd', '&:hover': { backgroundColor: 'secondary.midNightBlue' }}}>
-                                    <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200, alignContent: "center" }}>{seeker.firstName}</TableCell>
-                                    <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200, alignContent: "center" }}>{seeker.lastName}</TableCell>
+                            {filteredSeekers.map(seeker => (
+                                <TableRow key={seeker._id} sx={{ backgroundColor: '#0277bd', '&:hover': { backgroundColor: 'secondary.midNightBlue' } }}>
+                                    <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200 }}>{seeker.firstName}</TableCell>
+                                    <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200 }}>{seeker.lastName}</TableCell>
                                     <TableCell>
-                                        <Table>
+                                        <Table size="small">
                                             <TableHead>
                                                 <TableRow>
-                                                    <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200, alignContent: "center" }}>Title</TableCell>
-                                                    <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200, alignContent: "center" }}>Application Status</TableCell>
+                                                    <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200 }}>Title</TableCell>
+                                                    <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200 }}>Application Status</TableCell>
+                                                    <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200 }}>Action</TableCell>
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
                                                 {seeker.jobsHistory.map(job => (
                                                     <TableRow key={job._id}>
-                                                        <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200, alignContent: "center" }}>{job.title}</TableCell>
-                                                        <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200, alignContent: "center" }}>{job.applicationStatus}</TableCell>
+                                                        <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200 }}>{job.title}</TableCell>
+                                                        <TableCell align="center" sx={{ color: 'primary.contrastText', width: 200 }}>{job.applicationStatus}</TableCell>
+                                                        <TableCell align="center">
+                                                            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1 }}>
+                                                                <Button
+                                                                    variant="contained"
+                                                                    color="primary"
+                                                                    onClick={() => handleAccept(job._id)}
+                                                                >
+                                                                    Accept
+                                                                </Button>
+                                                                <Button
+                                                                    variant="contained"
+                                                                    sx={{
+                                                                        backgroundColor: 'red',
+                                                                        '&:hover': {
+                                                                            backgroundColor: 'lightcoral'
+                                                                        }
+                                                                    }}
+                                                                    onClick={() => handleReject(job._id)}
+                                                                >
+                                                                    Reject
+                                                                </Button>
+                                                                <Button
+                                                                    variant="contained"
+                                                                    color="success"
+                                                                    onClick={() => handlePutOnCV(job._id)}
+                                                                >
+                                                                    View CV
+                                                                </Button>
+                                                            </Box>
+                                                        </TableCell>
                                                     </TableRow>
                                                 ))}
                                             </TableBody>
                                         </Table>
-                                    </TableCell>
-                                    <TableCell align="center" sx={{ width: 200 }}>
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={() => handleAccept(seeker._id)}
-                                            sx={{ mr: 1 }}
-                                        >
-                                            Accept
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            sx={{
-                                                mr: 1,
-                                                backgroundColor: 'red',
-                                                '&:hover': {
-                                                    backgroundColor: 'lightcoral'
-                                                }
-                                            }}
-                                            onClick={() => handleReject(seeker._id)}
-                                        >
-                                            Reject
-                                        </Button>
-                                        
-                                        <Button
-                                            style={{marginTop:"10px"}}
-                                            variant="contained"
-                                            color="success"
-                                            onClick={() => handlePutOnCV(seeker._id)}
-                                        >
-                                            View CV
-                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
