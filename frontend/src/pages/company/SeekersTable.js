@@ -65,6 +65,7 @@ const SeekersTable = () => {
         return seekers.map(seeker => ({
             ...seeker,
             jobsHistory: seeker.jobsHistory.filter(jobHistory => 
+                jobHistory.applicationStatus === 'pending' &&
                 jobs.some(job => 
                     job.user && job.user._id === uid &&
                     job.title === jobHistory.title &&
