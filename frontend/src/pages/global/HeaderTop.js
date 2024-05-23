@@ -77,7 +77,7 @@ const HeaderTop = () => {
                     >
                         Quick Jobs App
                     </Typography>
-                    <Search>
+                    {/* <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
@@ -85,7 +85,7 @@ const HeaderTop = () => {
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
                         />
-                    </Search>
+                    </Search> */}
                 </Toolbar>
             </AppBar>
         </Box>
