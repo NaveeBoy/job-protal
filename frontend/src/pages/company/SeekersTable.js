@@ -54,10 +54,10 @@ const SeekersTable = () => {
         console.log(`Rejected job with id: ${id}`);
     };
 
-    const handlePutOnCV = (id) => {
-        // Handle put on CV logic here
-        console.log(`Put on CV job with id: ${id}`);
+    const handlePreviewCV = (cvPath) => {
+        window.open(`http://localhost:9000/${cvPath}`, '_blank');
     };
+    
 
     const filterSeekers = () => {
         if (!jobs || !seekers) return [];
@@ -81,7 +81,6 @@ const SeekersTable = () => {
 
     return (
         <>
-            {/* <h1>{user && user.firstName} {user && user.lastName} {uid}</h1> */}
             <Typography variant="h4" sx={{ color: "white", pb: 3, textAlign: "center" }}>
                 Job Applications
             </Typography>
@@ -142,7 +141,7 @@ const SeekersTable = () => {
                                                                 <Button
                                                                     variant="contained"
                                                                     color="success"
-                                                                    onClick={() => handlePutOnCV(job._id)}
+                                                                    onClick={() => handlePreviewCV(job.cv)}
                                                                 >
                                                                     View CV
                                                                 </Button>

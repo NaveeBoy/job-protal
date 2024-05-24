@@ -5,9 +5,11 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 var cors = require('cors');
+const path = require('path');
 
 
-
+// Serve static files from the uploads directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // import routes
 const authRoutes = require('./routes/authRoutes');
