@@ -13,7 +13,7 @@ const CompanyDashboard = () => {
     
     return (
         <>
-            <JobAdd/>
+            <JobAdd/> 
             <br/>
             <hr></hr>
             <br/>

@@ -7,13 +7,11 @@ const jwt = require("jsonwebtoken");
 
 
 const jobsHistorySchema = new mongoose.Schema({
-
     title: {
         type: String,
         trim: true,
         maxlength: 70,
     },
-
     description: {
         type: String,
         trim: true
@@ -33,16 +31,17 @@ const jobsHistorySchema = new mongoose.Schema({
         enum: ['pending', 'accepted', 'rejected'],
         default: 'pending'
     },
-
     user: {
         type: ObjectId,
         ref: "User",
         required: true
     },
+    cv: { // Add CV field
+        type: String,
+        required: true
+    }
+}, { timestamps: true });
 
-
-
-}, { timestamps: true })
 
 const userSchema = new mongoose.Schema({
 

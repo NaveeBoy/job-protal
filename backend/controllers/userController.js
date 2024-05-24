@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
 const ErrorResponse = require('../utils/errorResponse');
+const upload = require('../middleware/upload');
 
 //load all users
 exports.allUsers = async (req, res, next) => {
@@ -74,35 +75,43 @@ exports.deleteUser = async (req, res, next) => {
 }
 
 
-//jobs history
+// jobs history
 exports.createUserJobsHistory = async (req, res, next) => {
-    const { title, description, salary, location } = req.body;
-
-    try {
-        const currentUser = await User.findOne({ _id: req.user._id });
-        if (!currentUser) {
-            return next(new ErrorResponse("You must log In", 401));
-        } else {
-            const addJobHistory = {
-                title,
-                description,
-                salary,
-                location,
-                user: req.user._id
-            }
-            currentUser.jobsHistory.push(addJobHistory);
-            await currentUser.save();
+    upload(req, res, async (err) => {
+        if (err) {
+            return next(new ErrorResponse(err, 400));
         }
 
-        res.status(200).json({
-            success: true,
-            currentUser
-        })
-        next();
+        const { title, description, salary, location } = req.body;
+        const cv = req.file.path;
 
-    } catch (error) {
-        return next(error);
-    }
+        try {
+            const currentUser = await User.findOne({ _id: req.user._id });
+            if (!currentUser) {
+                return next(new ErrorResponse("You must log In", 401));
+            } else {
+                const addJobHistory = {
+                    title,
+                    description,
+                    salary,
+                    location,
+                    user: req.user._id,
+                    cv // Add the CV path to the job history
+                }
+                currentUser.jobsHistory.push(addJobHistory);
+                await currentUser.save();
+            }
+
+            res.status(200).json({
+                success: true,
+                currentUser
+            });
+            next();
+
+        } catch (error) {
+            return next(error);
+        }
+    });
 }
 
 // Get all seekers

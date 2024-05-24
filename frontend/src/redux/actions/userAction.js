@@ -122,10 +122,22 @@ export const allUserAction = () => async (dispatch) => {
 }
 
 //user job apply action
-export const userApplyJobAction = (job) => async (dispatch) => {
+export const userApplyJobAction = (job, cv) => async (dispatch) => {
     dispatch({ type: USER_APPLY_JOB_REQUEST });
+
+    const formData = new FormData();
+    formData.append('title', job.title);
+    formData.append('description', job.description);
+    formData.append('salary', job.salary);
+    formData.append('location', job.location);
+    formData.append('cv', cv);
+
     try {
-        const { data } = await axios.post("/api/user/jobhistory", job);
+        const { data } = await axios.post("/api/user/jobhistory", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
 
         dispatch({
             type: USER_APPLY_JOB_SUCCESS,
@@ -137,7 +149,7 @@ export const userApplyJobAction = (job) => async (dispatch) => {
             type: USER_APPLY_JOB_FAIL,
             payload: error.response.data.error
         });
-        toast.error("You must need to be a Registred User");
+        toast.error("You must need to be a Registered User");
     }
 }
 
