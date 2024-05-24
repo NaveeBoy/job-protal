@@ -149,7 +149,7 @@ export const userApplyJobAction = (job, cv) => async (dispatch) => {
             type: USER_APPLY_JOB_FAIL,
             payload: error.response.data.error
         });
-        toast.error("You must need to be a Registered User");
+        toast.error("You must need to be a Registered Seeker");
     }
 }
 

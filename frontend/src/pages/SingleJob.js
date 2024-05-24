@@ -9,6 +9,8 @@ import Navbar from '../component/Navbar';
 import { jobLoadSingleAction } from '../redux/actions/jobAction';
 import Button from '@mui/material/Button';
 import { userApplyJobAction } from '../redux/actions/userAction';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SingleJob = () => {
     const dispatch = useDispatch();
@@ -20,9 +22,19 @@ const SingleJob = () => {
         dispatch(jobLoadSingleAction(id));
     }, [dispatch, id]);
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file && file.type !== "application/pdf") {
+            toast.error("Only PDF files are accepted");
+            setCv(null);
+        } else {
+            setCv(file);
+        }
+    };
+
     const applyForAJob = () => {
         if (!cv) {
-            alert("Please select a CV to upload");
+            toast.error("Please select a CV to upload");
             return;
         }
         dispatch(userApplyJobAction({
@@ -35,6 +47,7 @@ const SingleJob = () => {
 
     return (
         <>
+            <ToastContainer />
             <Box sx={{ bgcolor: "#fafafa" }}>
                 <Navbar />
                 <Box sx={{ height: '85vh' }}>
@@ -64,13 +77,13 @@ const SingleJob = () => {
                                 }
                             </Box>
                             <Box sx={{ flex: 1, p: 2 }}>
-                            <Card sx={{ p: 2 }}>
+                                <Card sx={{ p: 2 }}>
                                     <input
                                         type="file"
                                         accept=".pdf"
                                         id="cv-upload"
                                         style={{ display: 'none' }}
-                                        onChange={(e) => setCv(e.target.files[0])}
+                                        onChange={handleFileChange}
                                     />
                                     <label htmlFor="cv-upload">
                                         <Button
