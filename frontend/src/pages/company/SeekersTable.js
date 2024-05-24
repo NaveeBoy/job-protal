@@ -55,9 +55,17 @@ const SeekersTable = () => {
     };
 
     const handlePreviewCV = (cvPath) => {
-        window.open(`http://localhost:9000/${cvPath}`, '_blank');
+        const width = 800;
+        const height = 600;
+        const left = (window.screen.width / 2) - (width / 2);
+        const top = (window.screen.height / 2) - (height / 2);
+
+        window.open(
+            `http://localhost:9000/${cvPath}`,
+            'CV Preview',
+            `width=${width},height=${height},top=${top},left=${left},resizable,scrollbars`
+        );
     };
-    
 
     const filterSeekers = () => {
         if (!jobs || !seekers) return [];

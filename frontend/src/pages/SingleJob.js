@@ -67,7 +67,7 @@ const SingleJob = () => {
                             <Card sx={{ p: 2 }}>
                                     <input
                                         type="file"
-                                        accept=".pdf,.doc,.docx"
+                                        accept=".pdf"
                                         id="cv-upload"
                                         style={{ display: 'none' }}
                                         onChange={(e) => setCv(e.target.files[0])}
