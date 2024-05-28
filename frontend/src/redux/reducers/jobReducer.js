@@ -1,4 +1,8 @@
 import {
+    JOB_DELETE_FAIL,
+    JOB_DELETE_REQUEST,
+    JOB_DELETE_RESET,
+    JOB_DELETE_SUCCESS,
     JOB_LOAD_FAIL,
     JOB_LOAD_REQUEST,
     JOB_LOAD_RESET,
@@ -86,3 +90,20 @@ export const loadALLJobReducer = (state = { jobs: [], total: 0 }, action) => {
             return state;
     }
 }
+
+
+export const JobDeleteReducer = (state = { jobs: [] }, action) => {
+    switch (action.type) {
+        // Your existing code for loading jobs...
+        case JOB_DELETE_REQUEST:
+            return { loading: true };
+        case JOB_DELETE_SUCCESS:
+            return { loading: false, success: true };
+        case JOB_DELETE_FAIL:
+            return { loading: false, error: action.payload };
+        case JOB_DELETE_RESET:
+            return {};
+        default:
+            return state;
+    }
+};

@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { createJob, singleJob, updateJob, showJobs, allJobs } = require('../controllers/jobsController');
+const { createJob, singleJob, updateJob, showJobs, allJobs,deleteJob } = require('../controllers/jobsController');
 const { isAuthenticated, isAdmin } = require('../middleware/auth');
 
 // Jobs routes
@@ -17,5 +17,7 @@ router.put('/job/update/:job_id', isAuthenticated, isAdmin, updateJob);
 router.get('/jobs/show', showJobs);
 // GET /api/jobs/allJobs
 router.get('/jobs/allJobs', allJobs);
+
+router.delete('/job/delete/:id',  deleteJob);
 
 module.exports = router;

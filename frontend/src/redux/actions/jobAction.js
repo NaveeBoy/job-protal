@@ -60,3 +60,21 @@ export const jobAllLoadAction = () => async (dispatch) => {
         });
     }
 }
+
+
+// Delete job by ID
+export const deleteJobAction = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: JOB_DELETE_REQUEST });
+        await axios.delete(`/api/job/delete/${id}`);
+        dispatch({
+            type: JOB_DELETE_SUCCESS,
+            payload: id
+        });
+    } catch (error) {
+        dispatch({
+            type: JOB_DELETE_FAIL,
+            payload: error.response.data.error
+        });
+    }
+};
