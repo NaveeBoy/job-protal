@@ -61,7 +61,6 @@ const DashJobs = () => {
             width: 200,
             renderCell: values => (
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '170px' }}>
-                    <Button variant="contained" component={Link} to={`/admin/edit/job/${values.row._id}`} style={{ color: 'white', textDecoration: 'none' }}>Edit</Button>
                     <Button onClick={() => deleteJobById(values.row._id)} variant="contained" color="error">Delete</Button>
                 </Box>
             ),
