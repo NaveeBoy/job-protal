@@ -1,42 +1,65 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Typography } from '@mui/material';
-import { jobLoadAction } from '../../redux/actions/jobAction'; // Assuming you have a loadJobsAction in your jobAction file
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { jobLoadAction, deleteJobAction } from '../../redux/actions/jobAction';
 
 const JobTable = () => {
     const dispatch = useDispatch();
     const { jobs, loading } = useSelector((state) => state.loadJobs);
     const { user } = useSelector(state => state.userProfile);
     const uid = user && user._id;
+    const [deleteJobId, setDeleteJobId] = useState(null);
+    const [openDialog, setOpenDialog] = useState(false);
 
     useEffect(() => {
         dispatch(jobLoadAction());
     }, [dispatch]);
 
-    // Filter jobs to include only those created by the logged-in user
     const userJobs = jobs ? jobs.filter(job => job.user && job.user._id === uid) : [];
-
-    console.log('Jobs:', jobs); // Log all jobs
-    console.log('User Jobs:', userJobs); // Log filtered jobs
-    console.log('User:', user); // Log user details
-    console.log('Loading:', loading); // Log loading state
 
     const handleEdit = (id) => {
         // Implement edit functionality
     };
 
-    const handleDelete = (id) => {
-        // Implement delete functionality
+    const handleDeleteClick = (id) => {
+        setDeleteJobId(id);
+        setOpenDialog(true);
+    };
+
+    const handleDialogClose = () => {
+        setOpenDialog(false);
+        setDeleteJobId(null);
+    };
+
+    const handleDeleteConfirmed = async () => {
+        try {
+            const response = await fetch(`http://localhost:9000/api/job/delete/${deleteJobId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            if (response.ok) {
+                // Reload jobs after deletion
+                dispatch(jobLoadAction());
+            } else {
+                // Handle error
+                console.error('Failed to delete job');
+            }
+        } catch (error) {
+            console.error('Error deleting job:', error);
+        } finally {
+            setOpenDialog(false);
+        }
     };
 
     return (
         <>
-            {/* <h1>{user && user.firstName} {user && user.lastName} {uid}</h1> */}
             <Typography variant="h4" sx={{ color: "white", pb: 3 }}>
                 Posted Jobs
             </Typography>
-            <TableContainer component={Paper} sx={{ border: '1px solid #fff', height: 400 ,backgroundColor: '#0277bd'}}>
-                <Table >
+            <TableContainer component={Paper} sx={{ border: '1px solid #fff', height: 400, backgroundColor: '#0277bd' }}>
+                <Table>
                     <TableHead>
                         <TableRow sx={{ backgroundColor: 'secondary.midNightBlue' }}>
                             <TableCell sx={{ color: 'primary.contrastText' }}>ID</TableCell>
@@ -58,11 +81,11 @@ const JobTable = () => {
                                     <TableCell sx={{ color: 'primary.contrastText' }}>{job.title}</TableCell>
                                     <TableCell sx={{ color: 'primary.contrastText' }}>{job.location}</TableCell>
                                     <TableCell sx={{ color: 'primary.contrastText' }}>
-                                        {job.jobType && job.jobType.jobTypeName} {/* Access categoryName from jobType */}
+                                        {job.jobType && job.jobType.jobTypeName}
                                     </TableCell>
                                     <TableCell sx={{ display: "flex" }}>
                                         <Button onClick={() => handleEdit(job._id)} variant="contained">Edit</Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <Button onClick={() => handleDelete(job._id)} color="error" variant="contained">Delete</Button>
+                                        <Button onClick={() => handleDeleteClick(job._id)} color="error" variant="contained">Delete</Button>
                                     </TableCell>
                                 </TableRow>
                             ))
@@ -70,6 +93,26 @@ const JobTable = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            
+            <Dialog
+                open={openDialog}
+                onClose={handleDialogClose}
+            >
+                <DialogTitle>Confirm Delete</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Are you sure you want to delete this job?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDialogClose} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleDeleteConfirmed} color="error">
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 };
