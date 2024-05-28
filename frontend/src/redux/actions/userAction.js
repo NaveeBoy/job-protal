@@ -4,21 +4,30 @@ import {
     ALL_USER_LOAD_FAIL,
     ALL_USER_LOAD_REQUEST,
     ALL_USER_LOAD_SUCCESS,
+
     USER_APPLY_JOB_FAIL,
     USER_APPLY_JOB_REQUEST,
     USER_APPLY_JOB_SUCCESS,
+
     USER_LOAD_FAIL,
     USER_LOAD_REQUEST,
     USER_LOAD_SUCCESS,
+
     USER_LOGOUT_FAIL,
     USER_LOGOUT_REQUEST,
     USER_LOGOUT_SUCCESS,
+
     USER_SIGNIN_FAIL,
     USER_SIGNIN_REQUEST,
     USER_SIGNIN_SUCCESS,
+
     ALL_SEEKERS_LOAD_REQUEST,
     ALL_SEEKERS_LOAD_SUCCESS,
-    ALL_SEEKERS_LOAD_FAIL
+    ALL_SEEKERS_LOAD_FAIL,
+
+    USER_DELETE_REQUEST,
+    USER_DELETE_SUCCESS,
+    USER_DELETE_FAIL
 } from '../constants/userConstant';
 
 
@@ -172,3 +181,19 @@ export const allSeekersAction = () => async (dispatch) => {
         toast.error(error.response.data.error || error.message);
     }
 }
+
+
+export const deleteUserAction = (id) => async (dispatch) => {
+    dispatch({ type: USER_DELETE_REQUEST });
+    try {
+        await axios.delete(`/api/admin/user/delete/${id}`);
+        dispatch({ type: USER_DELETE_SUCCESS });
+        toast.success("User deleted successfully");
+    } catch (error) {
+        dispatch({
+            type: USER_DELETE_FAIL,
+            payload: error.response.data.error
+        });
+        toast.error(error.response.data.error);
+    }
+};

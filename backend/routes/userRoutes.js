@@ -1,25 +1,33 @@
 const express = require('express');
 const router = express.Router();
-const { allUsers, singleUser, editUser, deleteUser, createUserJobsHistory ,allSeekers } = require('../controllers/userController');
+const {
+    allUsers,
+    singleUser,
+    editUser,
+    deleteUser,
+    createUserJobsHistory,
+    allSeekers
+} = require('../controllers/userController');
 const { isAuthenticated, isAdmin } = require('../middleware/auth');
 
-
-//user routes
+// user routes
 
 // /api/allusers
 router.get('/allusers', allUsers);
-// /api/user/id
+
+// /api/user/:id
 router.get('/user/:id', isAuthenticated, singleUser);
-// /api/user/edit/id
+
+// /api/user/edit/:id
 router.put('/user/edit/:id', isAuthenticated, editUser);
-// /api/admin/user/delete/id
+
+// /api/admin/user/delete/:id
 router.delete('/admin/user/delete/:id', isAuthenticated, isAdmin, deleteUser);
+
 // /api/user/jobhistory
 router.post('/user/jobhistory', isAuthenticated, createUserJobsHistory);
 
 // /api/seekers
-router.get('/seekers',  allSeekers);
-
-
+router.get('/seekers', allSeekers);
 
 module.exports = router;
