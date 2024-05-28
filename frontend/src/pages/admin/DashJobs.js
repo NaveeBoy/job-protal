@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Box, Button, Paper, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Typography } from '@mui/material';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +7,8 @@ import { jobLoadAction } from '../../redux/actions/jobAction';
 
 const DashJobs = () => {
     const dispatch = useDispatch();
+    const [deleteJobId, setDeleteJobId] = useState(null);
+    const [openDialog, setOpenDialog] = useState(false);
 
     useEffect(() => {
         dispatch(jobLoadAction());
@@ -15,8 +17,35 @@ const DashJobs = () => {
     const { jobs, loading } = useSelector(state => state.loadJobs);
     const data = jobs || [];
 
-    const deleteJobById = (e, id) => {
-        console.log(id);
+    const handleDeleteClick = (id) => {
+        setDeleteJobId(id);
+        setOpenDialog(true);
+    };
+
+    const handleDeleteConfirmed = async () => {
+        try {
+            const response = await fetch(`http://localhost:9000/api/job/delete/${deleteJobId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            if (response.ok) {
+                // Reload jobs after deletion
+                dispatch(jobLoadAction());
+            } else {
+                // Handle error
+                console.error('Failed to delete job');
+            }
+        } catch (error) {
+            console.error('Error deleting job:', error);
+        } finally {
+            setOpenDialog(false);
+        }
+    };
+
+    const handleDialogClose = () => {
+        setOpenDialog(false);
     };
 
     const columns = [
@@ -61,7 +90,7 @@ const DashJobs = () => {
             width: 200,
             renderCell: values => (
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '170px' }}>
-                    <Button onClick={() => deleteJobById(values.row._id)} variant="contained" color="error">Delete</Button>
+                    <Button onClick={() => handleDeleteClick(values.row._id)} variant="contained" color="error">Delete</Button>
                 </Box>
             ),
         },
@@ -73,12 +102,25 @@ const DashJobs = () => {
             <Typography variant="h4" sx={{ color: "white", pb: 3 }}>
                 Jobs list
             </Typography>
-            {/* Conditionally render Add Job button based on user permissions */}
-            {/* <Box sx={{ pb: 2, display: "flex", justifyContent: "right" }}>
-                <Button variant='contained' color="success" startIcon={<AddIcon />}>
-                    <Link style={{ color: "white", textDecoration: "none" }} to="/admin/job/create">Create Job</Link>
-                </Button>
-            </Box> */}
+            <Dialog
+                open={openDialog}
+                onClose={handleDialogClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Confirmation"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure you want to delete this job?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDialogClose}>Cancel</Button>
+                    <Button onClick={handleDeleteConfirmed} autoFocus color="error">
+                        Confirm
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <Paper sx={{ bgcolor: "secondary.midNightBlue" }}>
                 <Box sx={{ height: 400, width: '100%' }}>
                     <DataGrid
@@ -97,7 +139,6 @@ const DashJobs = () => {
                         }}
                         rows={data}
                         columns={columns}
-                       
                     />
                 </Box>
             </Paper>
