@@ -38,18 +38,18 @@ const DashJobs = () => {
             width: 80,
             valueGetter: data => data.row.jobType.jobTypeName,
         },
-        // {
-        //     field: 'user',
-        //     headerName: 'User',
-        //     width: 150,
-        //     valueGetter: data => data.row.user.firstName,
-        // },
+        {
+            field: 'user',
+            headerName: 'User',
+            width: 100,
+            valueGetter: data => data.row.user.firstName,
+        },
         {
             field: 'salary',
             headerName: 'Salary',
             type: 'number',
             width: 150,
-            renderCell: values => `$${values.row.salary}`,
+            renderCell: values => `Rs.${values.row.salary}.00`,
         },
         {
             field: 'location',
@@ -98,7 +98,7 @@ const DashJobs = () => {
                         }}
                         rows={data}
                         columns={columns}
-                        pageSize={5}
+                       
                     />
                 </Box>
             </Paper>
