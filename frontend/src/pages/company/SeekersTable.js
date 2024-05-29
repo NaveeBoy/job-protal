@@ -10,7 +10,12 @@ import {
     Paper,
     Typography,
     Button,
-    Box
+    Box,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle
 } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { jobLoadAction } from '../../redux/actions/jobAction'; // Assuming you have a loadJobsAction in your jobAction file
@@ -19,6 +24,8 @@ const SeekersTable = () => {
     const [seekers, setSeekers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [openDialog, setOpenDialog] = useState(false);
+    const [currentJobAction, setCurrentJobAction] = useState({ userId: null, jobId: null, status: '' });
 
     const dispatch = useDispatch();
     const { jobs } = useSelector((state) => state.loadJobs);
@@ -44,14 +51,36 @@ const SeekersTable = () => {
         fetchSeekers();
     }, []);
 
-    const handleAccept = (id) => {
-        // Handle accept logic here
-        console.log(`Accepted job with id: ${id}`);
+    const handleOpenDialog = (userId, jobId, status) => {
+        setCurrentJobAction({ userId, jobId, status });
+        setOpenDialog(true);
     };
 
-    const handleReject = (id) => {
-        // Handle reject logic here
-        console.log(`Rejected job with id: ${id}`);
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+    };
+
+    const handleConfirmAction = async () => {
+        const { userId, jobId, status } = currentJobAction;
+        try {
+            await axios.put(`http://localhost:9000/api/user/edit/${userId}`, { jobId, status });
+            // Update the seekers state to reflect the changes
+            setSeekers(prevSeekers => 
+                prevSeekers.map(seeker => 
+                    seeker._id === userId
+                        ? {
+                            ...seeker,
+                            jobsHistory: seeker.jobsHistory.map(job => 
+                                job._id === jobId ? { ...job, applicationStatus: status } : job
+                            )
+                          }
+                        : seeker
+                )
+            );
+        } catch (error) {
+            setError('Failed to update job status');
+        }
+        setOpenDialog(false);
     };
 
     const handlePreviewCV = (cvPath) => {
@@ -130,7 +159,7 @@ const SeekersTable = () => {
                                                                 <Button
                                                                     variant="contained"
                                                                     color="primary"
-                                                                    onClick={() => handleAccept(job._id)}
+                                                                    onClick={() => handleOpenDialog(seeker._id, job._id, 'accepted')}
                                                                 >
                                                                     Accept
                                                                 </Button>
@@ -142,7 +171,7 @@ const SeekersTable = () => {
                                                                             backgroundColor: 'lightcoral'
                                                                         }
                                                                     }}
-                                                                    onClick={() => handleReject(job._id)}
+                                                                    onClick={() => handleOpenDialog(seeker._id, job._id, 'rejected')}
                                                                 >
                                                                     Reject
                                                                 </Button>
@@ -166,6 +195,25 @@ const SeekersTable = () => {
                     </Table>
                 </TableContainer>
             )}
+            <Dialog
+                open={openDialog}
+                onClose={handleCloseDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Confirm Action"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure you want to {currentJobAction.status.toLowerCase()} this job application?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDialog} color="primary">Cancel</Button>
+                    <Button onClick={handleConfirmAction} color="primary" autoFocus>
+                        Confirm
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 };

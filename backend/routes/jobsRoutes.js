@@ -12,7 +12,7 @@ router.post('/job/create', isAuthenticated, createJob);
 // GET /api/job/:id
 router.get('/job/:id', singleJob);
 // PUT /api/job/update/:job_id
-router.put('/job/update/:job_id', isAuthenticated, isAdmin, updateJob);
+router.put('/job/update/:job_id',  updateJob);
 // GET /api/jobs/show
 router.get('/jobs/show', showJobs);
 // GET /api/jobs/allJobs

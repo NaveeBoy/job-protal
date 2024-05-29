@@ -19,7 +19,7 @@ router.get('/allusers', allUsers);
 router.get('/user/:id', isAuthenticated, singleUser);
 
 // /api/user/edit/:id
-router.put('/user/edit/:id', isAuthenticated, editUser);
+router.put('/user/edit/:id',  editUser);
 
 // /api/admin/user/delete/:id
 router.delete('/admin/user/delete/:id', deleteUser);
