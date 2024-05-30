@@ -7,19 +7,20 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { IconButton, useTheme } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 
-const CardElement = ({ jobTitle, description, category, location, id, applicationStatus, showStatusButton ,jobTime }) => {
+const CardElement = ({ jobTitle, description, category, location, id, applicationStatus, showStatusButton, jobTime }) => {
     const { palette } = useTheme();
     const [showStatus, setShowStatus] = React.useState(false);
+    const locationObject = useLocation();
 
     const handleStatusToggle = () => {
         setShowStatus(!showStatus);
     };
 
     const getStatusColor = (status) => {
-        switch(status) {
+        switch (status) {
             case 'pending':
                 return 'blue';
             case 'accepted':
@@ -48,26 +49,28 @@ const CardElement = ({ jobTitle, description, category, location, id, applicatio
                 </Typography>
                 {showStatus && (
                     <Typography variant="body2" sx={{ mt: 1 }}>
-                        <h3 style={{background: getStatusColor(applicationStatus), width:"230px",color:"white"}}> 
+                        <h3 style={{ background: getStatusColor(applicationStatus), width: "230px" ,color:"whitesmoke"}}>
                             Application Status: {applicationStatus}
                         </h3>
                     </Typography>
                 )}
             </CardContent>
             <CardActions>
-                <Button
-                    disableElevation
-                    variant="contained"
-                    size="small"
-                    startIcon={<AddIcon />}
-                >
-                    <Link
-                        style={{ textDecoration: "none", color: "white", boxShadow: 0 }}
-                        to={`/job/${id}`}
+                {locationObject.pathname !== '/user/jobs' && (
+                    <Button
+                        disableElevation
+                        variant="contained"
+                        size="small"
+                        startIcon={<AddIcon />}
                     >
-                        More Details
-                    </Link>
-                </Button>
+                        <Link
+                            style={{ textDecoration: "none", color: "white", boxShadow: 0 }}
+                            to={`/job/${id}`}
+                        >
+                            More Details
+                        </Link>
+                    </Button>
+                )}
                 {showStatusButton && (
                     <Button onClick={handleStatusToggle} variant="outlined" size="small">
                         {showStatus ? 'Hide Status' : 'Show Status'}
