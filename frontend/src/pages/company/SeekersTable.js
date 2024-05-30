@@ -19,6 +19,8 @@ import {
 } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { jobLoadAction } from '../../redux/actions/jobAction'; // Assuming you have a loadJobsAction in your jobAction file
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SeekersTable = () => {
     const [seekers, setSeekers] = useState([]);
@@ -77,8 +79,10 @@ const SeekersTable = () => {
                         : seeker
                 )
             );
+            toast.success(`Job application ${status}!`);
         } catch (error) {
             setError('Failed to update job status');
+            toast.error('Failed to update job status');
         }
         setOpenDialog(false);
     };
@@ -118,6 +122,7 @@ const SeekersTable = () => {
 
     return (
         <>
+            <ToastContainer />
             <Typography variant="h4" sx={{ color: "white", pb: 3, textAlign: "center" }}>
                 Job Applications
             </Typography>
@@ -209,7 +214,7 @@ const SeekersTable = () => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog} color="primary">Cancel</Button>
-                    <Button onClick={handleConfirmAction} color="primary" autoFocus>
+                    <Button onClick={handleConfirmAction} color="error" autoFocus>
                         Confirm
                     </Button>
                 </DialogActions>
