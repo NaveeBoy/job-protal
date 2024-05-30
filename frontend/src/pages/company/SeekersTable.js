@@ -25,7 +25,7 @@ const SeekersTable = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
-    const [currentJobAction, setCurrentJobAction] = useState({ userId: null, jobId: null, status: '' });
+    const [currentJobAction, setCurrentJobAction] = useState({ userId: null, jobHistoryId: null, status: '' });
 
     const dispatch = useDispatch();
     const { jobs } = useSelector((state) => state.loadJobs);
@@ -51,8 +51,8 @@ const SeekersTable = () => {
         fetchSeekers();
     }, []);
 
-    const handleOpenDialog = (userId, jobId, status) => {
-        setCurrentJobAction({ userId, jobId, status });
+    const handleOpenDialog = (userId, jobHistoryId, status) => {
+        setCurrentJobAction({ userId, jobHistoryId, status });
         setOpenDialog(true);
     };
 
@@ -61,9 +61,9 @@ const SeekersTable = () => {
     };
 
     const handleConfirmAction = async () => {
-        const { userId, jobId, status } = currentJobAction;
+        const { userId, jobHistoryId, status } = currentJobAction;
         try {
-            await axios.put(`http://localhost:9000/api/user/edit/${userId}`, { jobId, status });
+            await axios.put(`http://localhost:9000/api/user/jobhistory/${jobHistoryId}`, { applicationStatus: status });
             // Update the seekers state to reflect the changes
             setSeekers(prevSeekers => 
                 prevSeekers.map(seeker => 
@@ -71,7 +71,7 @@ const SeekersTable = () => {
                         ? {
                             ...seeker,
                             jobsHistory: seeker.jobsHistory.map(job => 
-                                job._id === jobId ? { ...job, applicationStatus: status } : job
+                                job._id === jobHistoryId ? { ...job, applicationStatus: status } : job
                             )
                           }
                         : seeker
