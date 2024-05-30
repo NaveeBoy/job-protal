@@ -27,7 +27,16 @@ import {
 
     USER_DELETE_REQUEST,
     USER_DELETE_SUCCESS,
-    USER_DELETE_FAIL
+    USER_DELETE_FAIL,
+
+    USER_UPDATE_JOB_HISTORY_REQUEST,
+    USER_UPDATE_JOB_HISTORY_SUCCESS,
+    USER_UPDATE_JOB_HISTORY_FAIL,
+
+    USER_DELETE_JOB_HISTORY_REQUEST,
+    USER_DELETE_JOB_HISTORY_SUCCESS,
+    USER_DELETE_JOB_HISTORY_FAIL
+
 } from '../constants/userConstant';
 
 
@@ -192,6 +201,42 @@ export const deleteUserAction = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: USER_DELETE_FAIL,
+            payload: error.response.data.error
+        });
+        toast.error(error.response.data.error);
+    }
+};
+
+
+// Update job history action
+export const updateUserJobHistoryAction = (jobId, applicationStatus) => async (dispatch) => {
+    dispatch({ type: USER_UPDATE_JOB_HISTORY_REQUEST });
+    try {
+        const { data } = await axios.put(`/api/user/jobhistory/${jobId}`, { applicationStatus });
+        dispatch({
+            type: USER_UPDATE_JOB_HISTORY_SUCCESS,
+            payload: data
+        });
+        toast.success("Job history updated successfully");
+    } catch (error) {
+        dispatch({
+            type: USER_UPDATE_JOB_HISTORY_FAIL,
+            payload: error.response.data.error
+        });
+        toast.error(error.response.data.error);
+    }
+};
+
+// Delete job history action
+export const deleteUserJobHistoryAction = (jobId) => async (dispatch) => {
+    dispatch({ type: USER_DELETE_JOB_HISTORY_REQUEST });
+    try {
+        await axios.delete(`/api/user/jobhistory/${jobId}`);
+        dispatch({ type: USER_DELETE_JOB_HISTORY_SUCCESS });
+        toast.success("Job history entry deleted successfully");
+    } catch (error) {
+        dispatch({
+            type: USER_DELETE_JOB_HISTORY_FAIL,
             payload: error.response.data.error
         });
         toast.error(error.response.data.error);

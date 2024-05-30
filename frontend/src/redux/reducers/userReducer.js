@@ -20,7 +20,13 @@ import {
     USER_SIGNIN_SUCCESS,
     ALL_SEEKERS_LOAD_REQUEST,
     ALL_SEEKERS_LOAD_SUCCESS,
-    ALL_SEEKERS_LOAD_FAIL
+    ALL_SEEKERS_LOAD_FAIL,
+    USER_UPDATE_JOB_HISTORY_REQUEST,
+    USER_UPDATE_JOB_HISTORY_SUCCESS,
+    USER_UPDATE_JOB_HISTORY_FAIL,
+    USER_DELETE_JOB_HISTORY_REQUEST,
+    USER_DELETE_JOB_HISTORY_SUCCESS,
+    USER_DELETE_JOB_HISTORY_FAIL
 } from "../constants/userConstant"
 
 
@@ -192,6 +198,35 @@ export const userDeleteReducer = (state = {}, action) => {
         case USER_DELETE_SUCCESS:
             return { loading: false, success: true };
         case USER_DELETE_FAIL:
+            return { loading: false, error: action.payload };
+        default:
+            return state;
+    }
+};
+
+
+// Update job history reducer
+export const userUpdateJobHistoryReducer = (state = {}, action) => {
+    switch (action.type) {
+        case USER_UPDATE_JOB_HISTORY_REQUEST:
+            return { loading: true };
+        case USER_UPDATE_JOB_HISTORY_SUCCESS:
+            return { loading: false, success: true };
+        case USER_UPDATE_JOB_HISTORY_FAIL:
+            return { loading: false, error: action.payload };
+        default:
+            return state;
+    }
+};
+
+// Delete job history reducer
+export const userDeleteJobHistoryReducer = (state = {}, action) => {
+    switch (action.type) {
+        case USER_DELETE_JOB_HISTORY_REQUEST:
+            return { loading: true };
+        case USER_DELETE_JOB_HISTORY_SUCCESS:
+            return { loading: false, success: true };
+        case USER_DELETE_JOB_HISTORY_FAIL:
             return { loading: false, error: action.payload };
         default:
             return state;

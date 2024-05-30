@@ -6,7 +6,9 @@ const {
     editUser,
     deleteUser,
     createUserJobsHistory,
-    allSeekers
+    allSeekers,
+    updateUserJobHistory,
+    deleteUserJobHistory
 } = require('../controllers/userController');
 const { isAuthenticated, isAdmin } = require('../middleware/auth');
 
@@ -26,6 +28,10 @@ router.delete('/admin/user/delete/:id', deleteUser);
 
 // /api/user/jobhistory
 router.post('/user/jobhistory', isAuthenticated, createUserJobsHistory);
+
+// /api/user/jobhistory/:jobId
+router.put('/user/jobhistory/:jobId',  updateUserJobHistory);
+router.delete('/user/jobhistory/:jobId', deleteUserJobHistory);
 
 // /api/seekers
 router.get('/seekers', allSeekers);

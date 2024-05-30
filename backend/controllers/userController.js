@@ -146,5 +146,58 @@ exports.deleteUser = async (req, res, next) => {
 };
 
 
+// Update job history entry
+exports.updateUserJobHistory = async (req, res, next) => {
+    try {
+        const { jobId } = req.params;
+        const { applicationStatus } = req.body;
+
+        const user = await User.findOne({ 'jobsHistory._id': jobId });
+
+        if (!user) {
+            return next(new ErrorResponse("Job history entry not found", 404));
+        }
+
+        const jobHistory = user.jobsHistory.id(jobId);
+
+        if (applicationStatus) {
+            jobHistory.applicationStatus = applicationStatus;
+        }
+
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            user
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+// Delete job history entry
+exports.deleteUserJobHistory = async (req, res, next) => {
+    try {
+        const { jobId } = req.params;
+
+        const user = await User.findOne({ 'jobsHistory._id': jobId });
+
+        if (!user) {
+            return next(new ErrorResponse("Job history entry not found", 404));
+        }
+
+        const jobHistory = user.jobsHistory.id(jobId);
+
+        jobHistory.remove();
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Job history entry deleted"
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
 
 
