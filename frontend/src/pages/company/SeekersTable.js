@@ -19,15 +19,13 @@ import {
 } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { jobLoadAction } from '../../redux/actions/jobAction'; // Assuming you have a loadJobsAction in your jobAction file
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const SeekersTable = () => {
     const [seekers, setSeekers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [openDialog, setOpenDialog] = useState(false);
-    const [currentJobAction, setCurrentJobAction] = useState({ userId: null, jobHistoryId: null, status: '' });
+    const [currentJobAction, setCurrentJobAction] = useState({ userId: null, jobId: null, status: '' });
 
     const dispatch = useDispatch();
     const { jobs } = useSelector((state) => state.loadJobs);
@@ -53,8 +51,8 @@ const SeekersTable = () => {
         fetchSeekers();
     }, []);
 
-    const handleOpenDialog = (userId, jobHistoryId, status) => {
-        setCurrentJobAction({ userId, jobHistoryId, status });
+    const handleOpenDialog = (userId, jobId, status) => {
+        setCurrentJobAction({ userId, jobId, status });
         setOpenDialog(true);
     };
 
@@ -63,9 +61,9 @@ const SeekersTable = () => {
     };
 
     const handleConfirmAction = async () => {
-        const { userId, jobHistoryId, status } = currentJobAction;
+        const { userId, jobId, status } = currentJobAction;
         try {
-            await axios.put(`http://localhost:9000/api/user/jobhistory/${jobHistoryId}`, { applicationStatus: status });
+            await axios.put(`http://localhost:9000/api/user/edit/${userId}`, { jobId, status });
             // Update the seekers state to reflect the changes
             setSeekers(prevSeekers => 
                 prevSeekers.map(seeker => 
@@ -73,16 +71,14 @@ const SeekersTable = () => {
                         ? {
                             ...seeker,
                             jobsHistory: seeker.jobsHistory.map(job => 
-                                job._id === jobHistoryId ? { ...job, applicationStatus: status } : job
+                                job._id === jobId ? { ...job, applicationStatus: status } : job
                             )
                           }
                         : seeker
                 )
             );
-            toast.success(`Job application ${status}!`);
         } catch (error) {
             setError('Failed to update job status');
-            toast.error('Failed to update job status');
         }
         setOpenDialog(false);
     };
@@ -122,7 +118,6 @@ const SeekersTable = () => {
 
     return (
         <>
-            <ToastContainer />
             <Typography variant="h4" sx={{ color: "white", pb: 3, textAlign: "center" }}>
                 Job Applications
             </Typography>
@@ -214,7 +209,7 @@ const SeekersTable = () => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog} color="primary">Cancel</Button>
-                    <Button onClick={handleConfirmAction} color="error" autoFocus>
+                    <Button onClick={handleConfirmAction} color="primary" autoFocus>
                         Confirm
                     </Button>
                 </DialogActions>
