@@ -18,6 +18,19 @@ const CardElement = ({ jobTitle, description, category, location, id, applicatio
         setShowStatus(!showStatus);
     };
 
+    const getStatusColor = (status) => {
+        switch(status) {
+            case 'pending':
+                return 'blue';
+            case 'accepted':
+                return 'green';
+            case 'rejected':
+                return 'red';
+            default:
+                return '#5ac8fa'; // default to pending color if status is unknown
+        }
+    };
+
     return (
         <Card sx={{ minWidth: 275, mb: 3, mt: 3 }}>
             <CardContent>
@@ -35,7 +48,9 @@ const CardElement = ({ jobTitle, description, category, location, id, applicatio
                 </Typography>
                 {showStatus && (
                     <Typography variant="body2" sx={{ mt: 1 }}>
-                       <h3 style={{background:"#5ac8fa",width:"230px"}}> Application Status: {applicationStatus}</h3>
+                        <h3 style={{background: getStatusColor(applicationStatus), width:"230px",color:"white"}}> 
+                            Application Status: {applicationStatus}
+                        </h3>
                     </Typography>
                 )}
             </CardContent>
