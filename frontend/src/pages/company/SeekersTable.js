@@ -53,8 +53,8 @@ const SeekersTable = () => {
         fetchSeekers();
     }, []);
 
-    const handleOpenDialog = (userId, jobHistoryId, status, userEmail) => {
-        setCurrentJobAction({ userId, jobHistoryId, status, userEmail });
+    const handleOpenDialog = (userId, jobHistoryId, status, userEmail,jobTitle) => {
+        setCurrentJobAction({ userId, jobHistoryId, status, userEmail ,jobTitle});
         setOpenDialog(true);
     };
     

@@ -56,7 +56,7 @@ app.post('/api/send-email', async (req, res) => {
         const { userEmail, status } = req.body; // Get user's email and status from request body
 
         // Send email using Nodemailer
-        await sendEmail(userEmail, status);
+        await sendEmail(userEmail, status );
 
         res.status(200).send("Email sent successfully");
     } catch (error) {
@@ -78,10 +78,10 @@ async function sendEmail(userEmail, status) {
 
     // Send email
     let info = await transporter.sendMail({
-        from: '"Your Name" <quickjobscompany01@gmail.com>',
+        from: '"Quick Jobs" <quickjobscompany01@gmail.com>',
         to: userEmail,
         subject: 'Job Application Status Update',
-        text: `Your job application status has been updated to: ${status}`
+        text: `Your job application status has been \nupdated to: ${status} \ncheck your Job Applied Section , \nThanks for Join with us !`
     });
 
     console.log("Message sent: %s", info.messageId);
