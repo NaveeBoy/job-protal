@@ -53,39 +53,44 @@ const SeekersTable = () => {
         fetchSeekers();
     }, []);
 
-    const handleOpenDialog = (userId, jobHistoryId, status) => {
-        setCurrentJobAction({ userId, jobHistoryId, status });
+    const handleOpenDialog = (userId, jobHistoryId, status, userEmail) => {
+        setCurrentJobAction({ userId, jobHistoryId, status, userEmail });
         setOpenDialog(true);
     };
+    
 
     const handleCloseDialog = () => {
         setOpenDialog(false);
     };
 
     const handleConfirmAction = async () => {
-        const { userId, jobHistoryId, status } = currentJobAction;
+        const { userId, jobHistoryId, status, userEmail } = currentJobAction;
         try {
             await axios.put(`http://localhost:9000/api/user/jobhistory/${jobHistoryId}`, { applicationStatus: status });
+            await axios.post('http://localhost:9000/api/send-email', { userEmail, status });
             // Update the seekers state to reflect the changes
-            setSeekers(prevSeekers => 
-                prevSeekers.map(seeker => 
+            setSeekers(prevSeekers =>
+                prevSeekers.map(seeker =>
                     seeker._id === userId
                         ? {
                             ...seeker,
-                            jobsHistory: seeker.jobsHistory.map(job => 
+                            jobsHistory: seeker.jobsHistory.map(job =>
                                 job._id === jobHistoryId ? { ...job, applicationStatus: status } : job
                             )
-                          }
+                        }
                         : seeker
                 )
             );
             toast.success(`Job application ${status}!`);
         } catch (error) {
+            console.error("Error:", error); // Log the error to the console
             setError('Failed to update job status');
             toast.error('Failed to update job status');
         }
         setOpenDialog(false);
     };
+    
+    
 
     const handlePreviewCV = (cvPath) => {
         const width = 800;
@@ -164,7 +169,7 @@ const SeekersTable = () => {
                                                                 <Button
                                                                     variant="contained"
                                                                     color="primary"
-                                                                    onClick={() => handleOpenDialog(seeker._id, job._id, 'accepted')}
+                                                                    onClick={() => handleOpenDialog(seeker._id, job._id, 'accepted', seeker.email)}
                                                                 >
                                                                     Accept
                                                                 </Button>
@@ -176,7 +181,7 @@ const SeekersTable = () => {
                                                                             backgroundColor: 'lightcoral'
                                                                         }
                                                                     }}
-                                                                    onClick={() => handleOpenDialog(seeker._id, job._id, 'rejected')}
+                                                                    onClick={() => handleOpenDialog(seeker._id, job._id, 'rejected', seeker.email)}
                                                                 >
                                                                     Reject
                                                                 </Button>

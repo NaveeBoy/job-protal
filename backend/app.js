@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 var cors = require('cors');
 const path = require('path');
+const nodemailer = require('nodemailer');
 
 
 // Serve static files from the uploads directory
@@ -47,7 +48,46 @@ app.post("/api/signup",async(req,res)=>{
     res.send(result);
 })
 
+// email
 
+// Define your route handler for sending emails
+app.post('/api/send-email', async (req, res) => {
+    try {
+        const { userEmail, status } = req.body; // Get user's email and status from request body
+
+        // Send email using Nodemailer
+        await sendEmail(userEmail, status);
+
+        res.status(200).send("Email sent successfully");
+    } catch (error) {
+        console.error("Error sending email:", error);
+        res.status(500).send("Failed to send email");
+    }
+});
+
+// Function to send email
+async function sendEmail(userEmail, status) {
+    // Create a Nodemailer transporter
+    let transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'quickjobscompany01@gmail.com', // Replace with your Gmail email
+            pass: 'svea mohl sgwe wnen' // Replace with your Gmail password
+        }
+    });
+
+    // Send email
+    let info = await transporter.sendMail({
+        from: '"Your Name" <quickjobscompany01@gmail.com>',
+        to: userEmail,
+        subject: 'Job Application Status Update',
+        text: `Your job application status has been updated to: ${status}`
+    });
+
+    console.log("Message sent: %s", info.messageId);
+}
+
+// email
 
 //ROUTES MIDDLEWARE
 // app.get('/', (req, res) => {
