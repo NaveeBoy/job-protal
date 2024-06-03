@@ -30,6 +30,7 @@ import CompanyInfoDashBoard from './pages/company/CompanyInfoDashBoard.js';
 import ChatBot from './component/Chatbot/Chatbot.js'
 import SeekersTable from './pages/company/SeekersTable.js';
 import AcceptedApplications from './pages/company/AcceptedApplications.js';
+import RejectedApplications from './pages/company/RejectedApplication.js'
 
 //HOC
 
@@ -48,6 +49,7 @@ const MypostHOC=Layout(Mypost);
 const CompanyJobAddpop = Layout(CompanyJobAdd);
 const SeekersTableHOC = Layout(SeekersTable);
 const AcceptedApplicationsHOC = Layout(AcceptedApplications);
+const RejectedApplicationsHOC = Layout(RejectedApplications);
 
 
 
@@ -84,6 +86,7 @@ const App = () => {
                             <Route path='/company/info' element={<CompanyRoute>< CompanyInfoDashBoardHOC /></CompanyRoute>} />
                             <Route path='/company/seekers' element={<CompanyRoute>< SeekersTableHOC /></CompanyRoute>} />
                             <Route path='/company/acceptedapplications' element={<CompanyRoute>< AcceptedApplicationsHOC /></CompanyRoute>} />
+                            <Route path='/company/rejectedapplications' element={<CompanyRoute>< RejectedApplicationsHOC /></CompanyRoute>} />
 
                             <Route path='*' element={<NotFound />} />
                         </Routes>
