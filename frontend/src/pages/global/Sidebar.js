@@ -15,6 +15,7 @@ import { userLogoutAction, userProfileAction } from '../../redux/actions/userAct
 import { useNavigate } from 'react-router-dom';
 import LoginIcon from '@mui/icons-material/Login';
 import { FaHome } from 'react-icons/fa';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 
 const SidebarAdm = () => {
@@ -104,7 +105,10 @@ const SidebarAdm = () => {
                                     <>
                                         <MenuItem component={<Link to="/company/dashboard" />} icon={<DashboardIcon />}> Dashboard </MenuItem>
                                         <MenuItem component={<Link to="/company/myposts" />} icon={<WorkHistoryIcon />}> My Posts </MenuItem>
+                                        <MenuItem component={<Link to="/company/acceptedapplications" />} icon={<DescriptionIcon />}> Accepted Applications </MenuItem>
+                                        <MenuItem component={<Link to="/company/rejectedapplications" />} icon={<DescriptionIcon />}> Rejected Applications </MenuItem>
                                         <MenuItem component={<Link to="/company/info" />} icon={<Person3Icon />}> Personal Info </MenuItem>
+
                                     </>
                             }
 
