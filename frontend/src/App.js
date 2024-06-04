@@ -31,6 +31,7 @@ import ChatBot from './component/Chatbot/Chatbot.js'
 import SeekersTable from './pages/company/SeekersTable.js';
 import AcceptedApplications from './pages/company/AcceptedApplications.js';
 import RejectedApplications from './pages/company/RejectedApplication.js'
+import AboutUs from "./pages/AboutUs.js"
 
 //HOC
 
@@ -70,6 +71,7 @@ const App = () => {
                             <Route path='/search/location/:jobTime' element={<Home />} />
                             <Route path='/search/:keyword' element={<Home />} />
                             <Route path='/login' element={<LogIn />} />
+                            
                             <Route path='/signup' element={<SignUpForm />} />
                             <Route path='/job/:id' element={<SingleJob />} />
                             <Route path='/admin/dashboard' element={<AdminRoute><AdminDashboardHOC /></AdminRoute>} />
@@ -87,6 +89,7 @@ const App = () => {
                             <Route path='/company/seekers' element={<CompanyRoute>< SeekersTableHOC /></CompanyRoute>} />
                             <Route path='/company/acceptedapplications' element={<CompanyRoute>< AcceptedApplicationsHOC /></CompanyRoute>} />
                             <Route path='/company/rejectedapplications' element={<CompanyRoute>< RejectedApplicationsHOC /></CompanyRoute>} />
+                            <Route path='/aboutus' element={<AboutUs />} />
 
                             <Route path='*' element={<NotFound />} />
                         </Routes>

@@ -58,7 +58,9 @@ const Navbar = () => {
       <Container>
         {/* principal Menu */}
         <Toolbar disableGutters>
-          <WorkIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          {/* <WorkIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
+          <img src="/logo.jpg" width={40} halt="QuickJobs Logo" sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} style={{borderRadius:"70px"}}/>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <Typography
             variant="h6"
             noWrap
@@ -132,15 +134,24 @@ const Navbar = () => {
           >
             Quick Jobs
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } ,marginLeft:"50%"}}>
             {/* menu desktop */}
-
+            
             <Button
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: "white", display: "block" }}
             >
               <Link to="/" style={{ color: "white", textDecoration: "none" }}>
                 Home
+              </Link>
+            </Button>
+            <Button
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              <Link to="/aboutus" style={{ color: "white", textDecoration: "none" }}>
+                About Us
               </Link>
             </Button>
             {!userInfo && ( // Render only if user is not logged in
