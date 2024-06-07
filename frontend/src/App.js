@@ -23,7 +23,7 @@ import SignUpForm from './pages/Signup';
 import AdminAdd from './pages/admin/AdminAddPopUp';
 import DashCategory from './pages/admin/AdminDashCategory.js';
 import CategoryAdd from './pages/admin/CategoryAddPopUp.js';
-import CompanyDashboard from './pages/company/CompanyDashBoard.js';
+import CompanyDashboard from './pages/company/CompanyDashboard.js';
 import Mypost from './pages/company/MyPosts.js';
 import CompanyJobAdd from './pages/company/CompanyJobAdd.js';
 import CompanyInfoDashBoard from './pages/company/CompanyInfoDashBoard.js';
