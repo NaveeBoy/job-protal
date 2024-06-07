@@ -60,7 +60,6 @@ const JobTypeTable = () => {
                                     <TableCell sx={{ color: 'primary.contrastText', width: "200", alignContent: "center" }}>{type._id}</TableCell>
                                     <TableCell sx={{ color: 'primary.contrastText', width: "200" }}>{type.jobTypeName}</TableCell>
                                     <TableCell sx={{ display: "flex" }}>
-                                    //    <Button onClick={() => handleEdit(type._id)} variant="contained">Edit</Button>&nbsp;&nbsp;&nbsp;
                                             &nbsp;&nbsp;&nbsp;
                                         <Button onClick={() => handleClickOpen(type._id)} color="error" variant="contained">Delete</Button>
                                     </TableCell>
