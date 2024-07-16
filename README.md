@@ -4,3 +4,4 @@ companies, and job seekers. Admins can manage users and job posts, companies can
 applications, and job seekers can apply for jobs and upload their CVs. This project demonstrates my proficiency in 
 modern web development technologies and my ability to create functional, user-centric applications.
 
+https://github.com/NaveeBoy/job-protal/wiki
